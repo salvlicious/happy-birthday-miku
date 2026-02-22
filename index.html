@@ -23,49 +23,42 @@ body {
   height: 300px;
 }
 
-/* Images stacked */
+/* Placeholders stacked */
 #envelope, #bow, #letter1, #letter2 {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
   transition: all 1s ease;
 }
 
-/* Initially hide letters */
-#letter1, #letter2 {
-  transform: translateY(100px);
-  opacity: 0;
-  z-index: 1;
-}
+/* Envelope and bow placeholders */
+#envelope { background: #c2a679; }
+#bow { background: #b76e79; }
+
+/* Letters initially hidden */
+#letter1 { background: #ffffff; color: black; transform: translateY(100px); opacity: 0; z-index: 1; }
+#letter2 { background: #ffeeaa; color: black; transform: translateY(100px); opacity: 0; z-index: 1; }
 
 /* Bow unravel animation */
-.unravel {
-  transform: translateY(-50px) rotate(-30deg);
-  opacity: 0;
-}
+.unravel { transform: translateY(-50px) rotate(-30deg); opacity: 0; }
 
 /* Envelope open animation */
-.openEnvelope {
-  transform: rotateX(180deg);
-}
+.openEnvelope { transform: rotateX(180deg); }
 
 /* Letters coming out */
-.showLetter1 {
-  transform: translateY(-50px);
-  opacity: 1;
-  z-index: 2;
-}
-
-.showLetter2 {
-  transform: translateY(-60px);
-  opacity: 1;
-  z-index: 3;
-}
+.showLetter1 { transform: translateY(-50px); opacity: 1; z-index: 2; }
+.showLetter2 { transform: translateY(-60px); opacity: 1; z-index: 3; }
 
 /* CAKE PAGE */
 #cakePage {
-  display: none;
+  display: none;              /* hidden initially */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -79,6 +72,11 @@ body {
   margin:0 auto;
   position:relative;
   border-radius:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+  color:#333;
 }
 
 #candle {
@@ -117,15 +115,15 @@ body {
 
 <!-- ENVELOPE AND LETTERS -->
 <div id="envelopeContainer">
-  <img id="envelope" src="envelope.png" alt="Envelope">
-  <img id="bow" src="bow.png" alt="Bow">
-  <img id="letter1" src="letter1.png" alt="Letter 1">
-  <img id="letter2" src="letter2.png" alt="Letter 2">
+  <div id="envelope">Envelope</div>
+  <div id="bow">Bow</div>
+  <div id="letter1">Letter 1</div>
+  <div id="letter2">Letter 2</div>
 </div>
 
 <!-- CAKE PAGE -->
 <div id="cakePage">
-  <div id="cake">
+  <div id="cake">Cake
     <div id="candle"><div id="flame"></div></div>
   </div>
   <button id="blowButton">Blow the candle!</button>
@@ -142,40 +140,33 @@ const cakePage = document.getElementById('cakePage');
 
 // Animate envelope sequence
 function animateEnvelopeSequence() {
-  // Step 1: Bow unravels
-  bow.classList.add('unravel');
+  bow.classList.add('unravel'); // step 1
 
   setTimeout(() => {
-    // Step 2: Envelope opens
-    envelope.classList.add('openEnvelope');
+    envelope.classList.add('openEnvelope'); // step 2
   }, 1000);
 
   setTimeout(() => {
-    // Step 3: Letters slide out
-    letter1.classList.add('showLetter1');
+    letter1.classList.add('showLetter1'); // step 3
     letter2.classList.add('showLetter2');
   }, 2000);
 
   setTimeout(() => {
-    // Step 4: First letter comes forward
-    letter1.style.zIndex = 3;
+    letter1.style.zIndex = 3; // step 4: first letter forward
     letter2.style.zIndex = 2;
   }, 3000);
 
   setTimeout(() => {
-    // Step 5: Second letter comes forward
-    letter1.style.zIndex = 2;
+    letter1.style.zIndex = 2; // step 5: second letter comes forward
     letter2.style.zIndex = 3;
   }, 4500);
 
   setTimeout(() => {
-    // Step 6: Hide envelopeContainer, show cake page
-    envelopeContainer.style.display = 'none';
+    envelopeContainer.style.display = 'none'; // step 6: show cake page
     cakePage.style.display = 'flex';
-  }, 6000); // 6 seconds for the full letter animation
+  }, 6000);
 }
 
-// Trigger animation on page load (or you can trigger on click)
 window.onload = animateEnvelopeSequence;
 
 /* CAKE LOGIC - LONG PRESS */
