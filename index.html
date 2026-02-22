@@ -93,7 +93,14 @@ body {
     Your letter will appear here 💖
   </div>
 </div>
+<button onclick="showCakePage()">Next →</button>
 
+<script>
+function showCakePage() {
+  document.querySelector('.container').style.display = 'none'; // hide envelope page
+  cakePage.style.display = 'block'; // show cake page
+}
+</script>
 <script>
 let step = 0;
 
