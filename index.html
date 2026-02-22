@@ -2,9 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday 💌🎂</title>
+<title>Birthday Animation 💌🎂</title>
 <style>
-/* GENERAL PAGE STYLING */
 body {
   background: #f5f1ea;
   font-family: 'Georgia', serif;
@@ -17,108 +16,56 @@ body {
   text-align: center;
 }
 
-/* ENVELOPE PAGE */
-#envelopePage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-}
-
-.container {
+/* CONTAINER FOR ENVELOPE AND LETTERS */
+#envelopeContainer {
   position: relative;
-  cursor: pointer;
   width: 300px;
   height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.envelope {
-  width: 300px;
-  height: 200px;
-  background: #e8d8c3;
-  position: relative;
-  transition: 0.8s;
-}
-
-.flap {
+/* Images stacked */
+#envelope, #bow, #letter1, #letter2 {
   position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 100px solid #d9c2a6;
-  top: -100px;
+  top: 0;
   left: 0;
-  transform-origin: bottom;
-  transition: 0.8s;
+  width: 100%;
+  transition: all 1s ease;
 }
 
-.bow {
-  position: absolute;
-  width: 80px;
-  height: 30px;
-  background: #b76e79;
-  border-radius: 20px;
-  top: 85px;
-  left: 110px;
-  transition: 0.5s;
-}
-
-.letter {
-  position: absolute;
-  width: 260px;
-  height: 160px;
-  background: white;
-  top: 20px;
-  left: 20px;
+/* Initially hide letters */
+#letter1, #letter2 {
   transform: translateY(100px);
-  transition: 0.8s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
   opacity: 0;
-  flex-direction: column;
+  z-index: 1;
 }
 
-.open .flap { transform: rotateX(180deg); }
-.show-letter .letter { transform: translateY(-120px); opacity: 1; }
-.hide-bow .bow { opacity: 0; }
-
-/* NEXT BUTTON STYLING */
-#nextButton {
-  display: block;
-  margin: 20px auto 0 auto;
-  padding: 15px 40px;
-  font-size: 20px;
-  font-weight: bold;
-  background: #ff4b5c;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  transition: transform 0.2s, background 0.2s;
+/* Bow unravel animation */
+.unravel {
+  transform: translateY(-50px) rotate(-30deg);
+  opacity: 0;
 }
 
-#nextButton:hover {
-  background: #ff758f;
-  transform: translateY(-3px);
+/* Envelope open animation */
+.openEnvelope {
+  transform: rotateX(180deg);
 }
 
-#nextButton:active {
-  transform: translateY(0px);
+/* Letters coming out */
+.showLetter1 {
+  transform: translateY(-50px);
+  opacity: 1;
+  z-index: 2;
+}
+
+.showLetter2 {
+  transform: translateY(-60px);
+  opacity: 1;
+  z-index: 3;
 }
 
 /* CAKE PAGE */
 #cakePage {
-  display: none;              /* hidden initially */
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -166,21 +113,14 @@ body {
 }
 </style>
 </head>
-
 <body>
 
-<!-- ENVELOPE PAGE -->
-<div id="envelopePage">
-  <div class="container" onclick="nextStep()">
-    <div class="flap"></div>
-    <div class="envelope"></div>
-    <div class="bow"></div>
-    <div class="letter">
-      <p>Happy Birthday My Love 💖</p>
-      <p>I can’t wait to celebrate you today 🎉</p>
-      <button id="nextButton" onclick="showCakePage(event)">Next →</button>
-    </div>
-  </div>
+<!-- ENVELOPE AND LETTERS -->
+<div id="envelopeContainer">
+  <img id="envelope" src="envelope.png" alt="Envelope">
+  <img id="bow" src="bow.png" alt="Bow">
+  <img id="letter1" src="letter1.png" alt="Letter 1">
+  <img id="letter2" src="letter2.png" alt="Letter 2">
 </div>
 
 <!-- CAKE PAGE -->
@@ -193,22 +133,50 @@ body {
 </div>
 
 <script>
-/* ENVELOPE LOGIC */
-let step = 0;
-function nextStep() {
-  const container = document.querySelector('.container');
-  if (step === 0) { container.classList.add('hide-bow'); }
-  else if (step === 1) { container.classList.add('open'); }
-  else if (step === 2) { container.classList.add('show-letter'); }
-  step++;
+const bow = document.getElementById('bow');
+const envelope = document.getElementById('envelope');
+const letter1 = document.getElementById('letter1');
+const letter2 = document.getElementById('letter2');
+const envelopeContainer = document.getElementById('envelopeContainer');
+const cakePage = document.getElementById('cakePage');
+
+// Animate envelope sequence
+function animateEnvelopeSequence() {
+  // Step 1: Bow unravels
+  bow.classList.add('unravel');
+
+  setTimeout(() => {
+    // Step 2: Envelope opens
+    envelope.classList.add('openEnvelope');
+  }, 1000);
+
+  setTimeout(() => {
+    // Step 3: Letters slide out
+    letter1.classList.add('showLetter1');
+    letter2.classList.add('showLetter2');
+  }, 2000);
+
+  setTimeout(() => {
+    // Step 4: First letter comes forward
+    letter1.style.zIndex = 3;
+    letter2.style.zIndex = 2;
+  }, 3000);
+
+  setTimeout(() => {
+    // Step 5: Second letter comes forward
+    letter1.style.zIndex = 2;
+    letter2.style.zIndex = 3;
+  }, 4500);
+
+  setTimeout(() => {
+    // Step 6: Hide envelopeContainer, show cake page
+    envelopeContainer.style.display = 'none';
+    cakePage.style.display = 'flex';
+  }, 6000); // 6 seconds for the full letter animation
 }
 
-/* NEXT BUTTON TO CAKE */
-function showCakePage(e) {
-  e.stopPropagation();
-  document.getElementById('envelopePage').style.display = 'none';
-  document.getElementById('cakePage').style.display = 'flex';
-}
+// Trigger animation on page load (or you can trigger on click)
+window.onload = animateEnvelopeSequence;
 
 /* CAKE LOGIC - LONG PRESS */
 const blowButton = document.getElementById('blowButton');
@@ -237,6 +205,5 @@ function cancelBlow() {
   if (flame.style.display !== 'none') message.textContent = "";
 }
 </script>
-
 </body>
-      </html>
+</html>
