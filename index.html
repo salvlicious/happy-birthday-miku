@@ -2,120 +2,154 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>For You 💌</title>
-
+<title>Happy Birthday 💌🎂</title>
 <style>
-body {
-  background: #f5f1ea;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: 'Georgia', serif;
-  margin: 0;
-}
+  body {
+    background: #f5f1ea;
+    font-family: 'Georgia', serif;
+    margin: 0;
+    text-align: center;
+  }
 
-.container {
-  position: relative;
-  cursor: pointer;
-}
+  /* ENVELOPE PAGE */
+  .container {
+    position: relative;
+    cursor: pointer;
+    margin-top: 50px;
+  }
 
-.envelope {
-  width: 300px;
-  height: 200px;
-  background: #e8d8c3;
-  position: relative;
-  transition: 0.8s;
-}
+  .envelope {
+    width: 300px;
+    height: 200px;
+    background: #e8d8c3;
+    position: relative;
+    transition: 0.8s;
+    margin: 0 auto;
+  }
 
-.flap {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 100px solid #d9c2a6;
-  top: -100px;
-  left: 0;
-  transform-origin: bottom;
-  transition: 0.8s;
-}
+  .flap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid #d9c2a6;
+    top: -100px;
+    left: 0;
+    transform-origin: bottom;
+    transition: 0.8s;
+  }
 
-.bow {
-  position: absolute;
-  width: 80px;
-  height: 30px;
-  background: #b76e79;
-  border-radius: 20px;
-  top: 85px;
-  left: 110px;
-  transition: 0.5s;
-}
+  .bow {
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    background: #b76e79;
+    border-radius: 20px;
+    top: 85px;
+    left: 110px;
+    transition: 0.5s;
+  }
 
-.letter {
-  position: absolute;
-  width: 260px;
-  height: 160px;
-  background: white;
-  top: 20px;
-  left: 20px;
-  transform: translateY(100px);
-  transition: 0.8s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  opacity: 0;
-}
+  .letter {
+    position: absolute;
+    width: 260px;
+    height: 160px;
+    background: white;
+    top: 20px;
+    left: 20px;
+    transform: translateY(100px);
+    transition: 0.8s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    opacity: 0;
+    flex-direction: column;
+  }
 
-.open .flap {
-  transform: rotateX(180deg);
-}
+  .open .flap { transform: rotateX(180deg); }
+  .show-letter .letter { transform: translateY(-120px); opacity: 1; }
+  .hide-bow .bow { opacity: 0; }
 
-.show-letter .letter {
-  transform: translateY(-120px);
-  opacity: 1;
-}
-
-.hide-bow .bow {
-  opacity: 0;
-}
+  /* CAKE PAGE */
+  #cakePage { display: none; margin-top:50px; }
+  #cake { width:200px; height:150px; background:#f5d0a9; margin:0 auto; position:relative; border-radius:10px; }
+  #candle { width:20px; height:50px; background:#ffdd00; position:absolute; top:-50px; left:90px; border-radius:5px; }
+  #flame { width:10px; height:20px; background:orange; border-radius:50%; margin:0 auto; margin-top:-5px; }
+  #blowButton { margin-top:30px; padding:15px 25px; font-size:16px; cursor:pointer; }
+  #message { font-size:18px; margin-top:20px; }
 </style>
 </head>
 
 <body>
 
-<div class="container" onclick="nextStep()">
+<!-- ENVELOPE PAGE -->
+<div class="container" id="envelopePage" onclick="nextStep()">
   <div class="flap"></div>
   <div class="envelope"></div>
   <div class="bow"></div>
   <div class="letter">
-    Your letter will appear here 💖
+    <p>Happy Birthday My Love 💖</p>
+    <p>I can’t wait to celebrate you today 🎉</p>
+    <button onclick="showCakePage(event)">Next →</button>
   </div>
 </div>
-<button onclick="showCakePage()">Next →</button>
+
+<!-- CAKE PAGE -->
+<div id="cakePage">
+  <div id="cake">
+    <div id="candle">
+      <div id="flame"></div>
+    </div>
+  </div>
+  <button id="blowButton">Blow the candle!</button>
+  <p id="message"></p>
+</div>
 
 <script>
-function showCakePage() {
-  document.querySelector('.container').style.display = 'none'; // hide envelope page
-  cakePage.style.display = 'block'; // show cake page
-}
-</script>
-<script>
+/* ENVELOPE LOGIC */
 let step = 0;
-
 function nextStep() {
-  const container = document.querySelector('.container');
-  
-  if (step === 0) {
-    container.classList.add('hide-bow');
-  } else if (step === 1) {
-    container.classList.add('open');
-  } else if (step === 2) {
-    container.classList.add('show-letter');
-  }
-  
+  const container = document.getElementById('envelopePage');
+  if (step === 0) { container.classList.add('hide-bow'); }
+  else if (step === 1) { container.classList.add('open'); }
+  else if (step === 2) { container.classList.add('show-letter'); }
   step++;
+}
+
+/* NEXT BUTTON TO CAKE */
+function showCakePage(e) {
+  e.stopPropagation(); // prevent envelope click from triggering
+  document.getElementById('envelopePage').style.display = 'none';
+  document.getElementById('cakePage').style.display = 'block';
+}
+
+/* CAKE LOGIC - LONG PRESS */
+const blowButton = document.getElementById('blowButton');
+const candle = document.getElementById('candle');
+const flame = document.getElementById('flame');
+const message = document.getElementById('message');
+let timer;
+
+blowButton.addEventListener('mousedown', startBlow);
+blowButton.addEventListener('touchstart', startBlow);
+blowButton.addEventListener('mouseup', cancelBlow);
+blowButton.addEventListener('mouseleave', cancelBlow);
+blowButton.addEventListener('touchend', cancelBlow);
+
+function startBlow() {
+  message.textContent = "Keep pressing to blow the candle...";
+  timer = setTimeout(() => {
+    flame.style.display = 'none';
+    candle.style.background = '#ddd';
+    message.textContent = "🎉 Candle blown! Happy Birthday! 🎉";
+  }, 5000); // 5 seconds
+}
+
+function cancelBlow() {
+  clearTimeout(timer);
+  if (!flame.style.display === 'none') message.textContent = "";
 }
 </script>
 
