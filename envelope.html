@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,16 +6,8 @@
   <title>A Letter For You ♡</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
-    :root {
-      --parchment: #f5ecd7;
-      --parchment-dark: #e0ceaa;
-      --ink: #2c1a0e;
-      --ink-light: #6b4226;
-      --gold: #c8a84b;
-      --env-front: #d4b896;
-      --env-dark: #b8976a;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
     body {
       min-height: 100vh;
       background: #1a0f08;
@@ -30,7 +21,9 @@
       font-family: 'IM Fell English', serif;
       overflow: hidden;
       user-select: none;
+      cursor: pointer;
     }
+
     .petal {
       position: fixed; opacity: 0; pointer-events: none;
       animation: fall linear infinite; font-size: 1rem;
@@ -39,171 +32,203 @@
       0%   { opacity: 0.7; transform: translateY(-30px) rotate(0deg); }
       100% { opacity: 0;   transform: translateY(105vh) rotate(360deg); }
     }
+
     .page-title {
       position: fixed; top: 32px;
-      color: var(--gold); font-family: 'Playfair Display', serif;
+      color: #c8a84b;
+      font-family: 'Playfair Display', serif;
       font-size: 0.95rem; font-style: italic;
       letter-spacing: 0.18em; opacity: 0.55;
+      pointer-events: none;
     }
+
     .hint {
       position: fixed; bottom: 28px;
       color: #a07850; font-size: 0.82rem;
       font-style: italic; letter-spacing: 0.06em;
-      transition: opacity 0.4s ease; pointer-events: none;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
-    #stage {
+
+    /* ── SCREENS ── */
+    .screen { display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .screen.active { display: flex; }
+
+    /* ── ENVELOPE SCREEN ── */
+    .envelope-wrap {
       position: relative;
-      width: 320px; height: 420px;
-      cursor: pointer;
-    }
-    #envWrap {
-      position: absolute;
-      bottom: 0; left: 50%;
-      transform: translateX(-50%);
       width: 300px; height: 200px;
-      z-index: 10;
+      animation: floatUp 0.6s ease both;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
     }
-    .env-body {
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, var(--env-dark), var(--env-front));
-      border-radius: 4px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
-      cursor: pointer;
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .env-body::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        linear-gradient(to bottom right, rgba(0,0,0,0.08) 50%, transparent 50%),
-        linear-gradient(to bottom left,  rgba(0,0,0,0.1)  50%, transparent 50%);
-    }
-    .env-bottom {
-      position: absolute; bottom: 0; left: 0;
-      width: 0; height: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 110px solid rgba(0,0,0,0.15);
-      pointer-events: none;
-    }
-    .env-flap {
-      position: absolute; top: 0; left: 0;
-      width: 300px; height: 110px;
-      transform-origin: top center;
-      transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
-      z-index: 4; pointer-events: none;
-    }
-    .env-flap svg { width: 100%; height: 100%; }
-    .flap-open .env-flap { transform: rotateX(-180deg); }
-    #seal {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px; height: 50px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #a02020, #5c0f0f);
-      box-shadow: 0 0 0 2.5px var(--gold), 0 4px 14px rgba(0,0,0,0.5);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; z-index: 5;
-      transition: transform 0.2s ease;
-    }
-    #seal:hover { transform: translate(-50%,-50%) scale(1.07); }
-    #seal.breaking { animation: sealPop 0.55s ease forwards; }
-    @keyframes sealPop {
-      0%   { transform: translate(-50%,-50%) scale(1);    opacity: 1; }
-      40%  { transform: translate(-50%,-50%) scale(1.25) rotate(8deg); }
-      100% { transform: translate(-50%,-60%) scale(0)    rotate(25deg); opacity: 0; }
-    }
-    #lettersWrap {
+
+    /* envelope SVG approach - much more reliable */
+    .env-svg { width: 300px; height: 200px; }
+
+    .seal-btn {
       position: absolute;
-      bottom: 90px; left: 50%;
-      transform: translateX(-50%);
-      width: 260px; height: 310px;
-      pointer-events: none;
-      z-index: 20;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #b02020, #5c0f0f);
+      box-shadow: 0 0 0 3px #c8a84b, 0 4px 16px rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .letter {
-      position: absolute; inset: 0;
-      background: var(--parchment);
+    .seal-btn:hover { transform: translate(-50%,-50%) scale(1.08); }
+    .seal-btn.pop { animation: sealPop 0.5s ease forwards; }
+    @keyframes sealPop {
+      0%  { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+      50% { transform: translate(-50%,-50%) scale(1.3) rotate(10deg); }
+      100%{ transform: translate(-50%,-60%) scale(0) rotate(25deg); opacity: 0; }
+    }
+
+    /* flap open animation */
+    .flap { transform-origin: top center; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .flap-open { transform: rotateX(-180deg); }
+
+    /* ── LETTERS SCREEN ── */
+    .letters-screen {
+      position: relative;
+      width: 300px; height: 420px;
+    }
+
+    .letter-card {
+      position: absolute;
+      width: 270px;
+      left: 50%; top: 0;
+      background: #f5ecd7;
       border-radius: 3px;
-      padding: 26px 22px 22px;
-      box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+      padding: 28px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
       background-image: repeating-linear-gradient(
         transparent, transparent 26px,
         rgba(90,58,26,0.1) 26px, rgba(90,58,26,0.1) 27px
       );
-      opacity: 0; pointer-events: none;
+      transition: transform 0.45s cubic-bezier(0.34,1.2,0.64,1), opacity 0.35s ease;
     }
-    .letter h3 {
+    .letter-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 0.75rem; font-style: italic;
-      color: var(--ink-light); margin-bottom: 12px;
+      font-size: 0.78rem; font-style: italic;
+      color: #6b4226; margin-bottom: 12px;
       padding-bottom: 8px;
-      border-bottom: 1px solid var(--parchment-dark);
-      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e0ceaa;
     }
-    .letter p {
-      font-size: 0.68rem; color: var(--ink);
+    .letter-card p {
+      font-size: 0.7rem; color: #2c1a0e;
       line-height: 1.95; font-style: italic;
     }
-    .letter .sig {
+    .letter-card .sig {
       margin-top: 14px; text-align: right;
       font-family: 'Playfair Display', serif;
-      font-size: 0.7rem; color: var(--ink-light); font-style: italic;
+      font-size: 0.72rem; color: #6b4226; font-style: italic;
     }
-    .letter.show { opacity: 1; pointer-events: all; }
-    .dots { position: fixed; bottom: 56px; display: flex; gap: 8px; }
-    .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #3a2010; transition: all 0.3s;
-    }
-    .dot.active { background: var(--gold); transform: scale(1.35); box-shadow: 0 0 6px var(--gold); }
+
+    /* letter positions */
+    #lcard1 { transform: translateX(-50%) translateY(0)  rotate(-1.5deg); z-index: 3; }
+    #lcard2 { transform: translateX(-50%) translateY(14px) rotate(2.5deg); z-index: 2; }
+
+    /* swipe out */
+    .swipe-left  { transform: translateX(-160%) translateY(-10px) rotate(-12deg) !important; opacity: 0 !important; }
+    .swipe-right { transform: translateX(60%)   translateY(-10px) rotate(12deg)  !important; opacity: 0 !important; }
+
+    /* dots */
+    .dots { position: fixed; bottom: 58px; display: flex; gap: 8px; pointer-events: none; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #3a2010; transition: all 0.3s; }
+    .dot.active { background: #c8a84b; transform: scale(1.4); box-shadow: 0 0 6px #c8a84b; }
     .dot.done   { background: #7a5030; }
   </style>
 </head>
 <body>
 
 <div class="petal" style="left:5%;  animation-duration:8s;  animation-delay:0s">🌸</div>
-<div class="petal" style="left:15%; animation-duration:10s; animation-delay:1s">✿</div>
-<div class="petal" style="left:28%; animation-duration:7s;  animation-delay:2s;  font-size:.7rem">🍂</div>
-<div class="petal" style="left:45%; animation-duration:12s; animation-delay:.5s">♡</div>
-<div class="petal" style="left:60%; animation-duration:9s;  animation-delay:3s">🌸</div>
-<div class="petal" style="left:75%; animation-duration:7.5s;animation-delay:1.5s">✿</div>
-<div class="petal" style="left:88%; animation-duration:11s; animation-delay:.8s; font-size:.7rem">🍂</div>
+<div class="petal" style="left:18%; animation-duration:11s; animation-delay:1.2s">✿</div>
+<div class="petal" style="left:32%; animation-duration:7s;  animation-delay:2s; font-size:.7rem">🍂</div>
+<div class="petal" style="left:50%; animation-duration:13s; animation-delay:.5s">♡</div>
+<div class="petal" style="left:65%; animation-duration:9s;  animation-delay:3s">🌸</div>
+<div class="petal" style="left:80%; animation-duration:7.5s;animation-delay:1.5s">✿</div>
+<div class="petal" style="left:92%; animation-duration:10s; animation-delay:.8s; font-size:.7rem">🍂</div>
 
 <p class="page-title">a letter for you ♡</p>
 
-<div id="stage">
+<!-- SCREEN 1: sealed envelope -->
+<div class="screen active" id="s1">
+  <div class="envelope-wrap" id="envWrap">
+    <svg class="env-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- body -->
+      <rect width="300" height="200" rx="4" fill="#c8a070"/>
+      <rect width="300" height="200" rx="4" fill="url(#bodyGrad)"/>
+      <!-- side folds -->
+      <polygon points="0,0 0,200 150,110" fill="rgba(0,0,0,0.08)"/>
+      <polygon points="300,0 300,200 150,110" fill="rgba(0,0,0,0.12)"/>
+      <!-- bottom fold -->
+      <polygon points="0,200 300,200 150,110" fill="rgba(0,0,0,0.1)"/>
+      <!-- flap -->
+      <polygon class="flap" id="flap" points="0,0 300,0 150,105" fill="url(#flapGrad)"/>
+      <defs>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#d4b896"/>
+          <stop offset="100%" stop-color="#b8976a"/>
+        </linearGradient>
+        <linearGradient id="flapGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8d0a8"/>
+          <stop offset="100%" stop-color="#c0956a"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <button class="seal-btn" id="sealBtn">♡</button>
+  </div>
+</div>
 
-  <div id="lettersWrap">
-    <div class="letter" id="letter2" style="z-index:2; transform:translateY(12px) rotate(2.5deg)">
+<!-- SCREEN 2: open envelope (flap open, click to pull out letters) -->
+<div class="screen" id="s2">
+  <div class="envelope-wrap">
+    <svg class="env-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="200" rx="4" fill="url(#bodyGrad2)"/>
+      <polygon points="0,0 0,200 150,110" fill="rgba(0,0,0,0.08)"/>
+      <polygon points="300,0 300,200 150,110" fill="rgba(0,0,0,0.12)"/>
+      <polygon points="0,200 300,200 150,110" fill="rgba(0,0,0,0.1)"/>
+      <!-- flap flipped open -->
+      <polygon points="0,0 300,0 150,105" fill="url(#flapGrad2)" transform="scale(1,-1) translate(0,-200)" style="transform-origin:150px 0px; transform:rotateX(180deg)"/>
+      <defs>
+        <linearGradient id="bodyGrad2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#d4b896"/>
+          <stop offset="100%" stop-color="#b8976a"/>
+        </linearGradient>
+        <linearGradient id="flapGrad2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c0956a"/>
+          <stop offset="100%" stop-color="#e8d0a8"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- SCREEN 3: letters out -->
+<div class="screen" id="s3">
+  <div class="letters-screen">
+    <div class="letter-card" id="lcard2">
       <h3>ii. something more ♡</h3>
       <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis eligendi optio nihil impedit quo minus id quod maxime placeat.<br><br>
       Temporibus autem quibusdam aut officiis debitis rerum necessitatibus saepe eveniet ut voluptates repudiandae sint molestiae non recusandae.</p>
       <p class="sig">— always yours ♡</p>
     </div>
-    <div class="letter" id="letter1" style="z-index:3; transform:translateY(0px) rotate(-1.5deg)">
+    <div class="letter-card" id="lcard1">
       <h3>i. to my favourite person</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.<br><br>
       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat non proident.</p>
       <p class="sig">— with love ♡</p>
     </div>
   </div>
-
-  <div id="envWrap">
-    <div class="env-body"></div>
-    <div class="env-bottom"></div>
-    <div class="env-flap" id="envFlap">
-      <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e8d0a8"/>
-            <stop offset="100%" stop-color="#b8906a"/>
-          </linearGradient>
-        </defs>
-        <polygon points="0,0 300,0 150,110" fill="url(#fg)"/>
-      </svg>
-    </div>
-    <div id="seal">♡</div>
-    <div id="envClickArea" style="position:absolute;inset:0;z-index:6;cursor:pointer;"></div>
-  </div>
-
 </div>
 
 <div class="dots">
@@ -216,112 +241,120 @@
 
 <script>
   let step = 0;
-  let topLetter = 1;
+  let topCard = 1;
 
-  const stage   = document.getElementById('stage');
-  const envWrap = document.getElementById('envWrap');
-  const seal    = document.getElementById('seal');
-  const L1      = document.getElementById('letter1');
-  const L2      = document.getElementById('letter2');
-  const hint    = document.getElementById('hint');
-
+  function show(id) {
+    ['s1','s2','s3'].forEach(s => document.getElementById(s).classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
   function setHint(t) {
-    hint.style.opacity = '0';
-    setTimeout(() => { hint.textContent = t; hint.style.opacity = '1'; }, 350);
+    const h = document.getElementById('hint');
+    h.style.opacity = '0';
+    setTimeout(() => { h.textContent = t; h.style.opacity = '1'; }, 300);
   }
   function setDots(n) {
     for (let i = 0; i < 4; i++) {
-      document.getElementById('d'+i).className =
-        'dot' + (i < n ? ' done' : '') + (i === n ? ' active' : '');
+      const d = document.getElementById('d'+i);
+      d.className = 'dot' + (i===n?' active':'') + (i<n?' done':'');
     }
   }
-
   function reset() {
-    step = 0; topLetter = 1;
-    seal.classList.remove('breaking');
-    seal.style.display = '';
-    envWrap.classList.remove('flap-open');
-    L1.className = 'letter';
-    L2.className = 'letter';
-    L1.style.cssText = 'z-index:3; transform:translateY(0px) rotate(-1.5deg)';
-    L2.style.cssText = 'z-index:2; transform:translateY(12px) rotate(2.5deg)';
+    step = 0; topCard = 1;
+    show('s1');
+    const sb = document.getElementById('sealBtn');
+    sb.classList.remove('pop');
+    sb.style.display = '';
+    // reset letter positions
+    const c1 = document.getElementById('lcard1');
+    const c2 = document.getElementById('lcard2');
+    c1.style.cssText = '';  c1.className = 'letter-card';
+    c2.style.cssText = '';  c2.className = 'letter-card';
     setDots(0); setHint('click to open ♡');
   }
 
-  function swipe(dir) {
-    const outgoing = topLetter === 1 ? L1 : L2;
-    const incoming = topLetter === 1 ? L2 : L1;
+  // Clicking anywhere on envelope (step 0): break seal AND open flap in one click
+  document.getElementById('s1').addEventListener('click', function() {
+    if (step === 0) {
+      const sb = document.getElementById('sealBtn');
+      sb.classList.add('pop');
+      setTimeout(() => {
+        sb.style.display = 'none';
+        show('s2');
+        step = 2;
+        setDots(2); setHint('click to take out the letters ♡');
+      }, 500);
+      step = 1; // prevent double-click during animation
+      setDots(1);
+    }
+  });
+  document.getElementById('s2').addEventListener('click', function() {
+    if (step === 2) {
+      show('s3');
+      step = 3;
+      setDots(3); setHint('swipe left or right to flip ♡');
+    }
+  });
 
-    outgoing.style.transition = 'transform 0.38s ease, opacity 0.38s ease';
-    outgoing.style.transform  = dir === 'left'
-      ? 'translateX(-130%) translateY(-10px) rotate(-10deg)'
-      : 'translateX(130%) translateY(-10px) rotate(10deg)';
-    outgoing.style.opacity = '0';
-    outgoing.style.zIndex  = '2';
+  // Click background on s3 → reset
+  document.getElementById('s3').addEventListener('click', function(e) {
+    const c1 = document.getElementById('lcard1');
+    const c2 = document.getElementById('lcard2');
+    if (!c1.contains(e.target) && !c2.contains(e.target) && e.target !== c1 && e.target !== c2) {
+      reset();
+    }
+  });
 
-    incoming.style.transition = 'none';
-    incoming.style.opacity    = '0';
-    incoming.style.zIndex     = '3';
-    incoming.style.transform  = dir === 'left'
-      ? 'translateX(110%) rotate(6deg)'
-      : 'translateX(-110%) rotate(-6deg)';
+  // ── SWIPE ──
+  let tx = null, mx = null;
 
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      incoming.style.transition = 'transform 0.42s cubic-bezier(0.34,1.2,0.64,1), opacity 0.32s ease';
-      incoming.style.transform  = 'translateY(0px) rotate(-1deg)';
-      incoming.style.opacity    = '1';
-    }));
-
-    topLetter = topLetter === 1 ? 2 : 1;
-    setHint('swipe again to flip ♡');
-  }
-
-  let tx = null;
-  document.addEventListener('touchstart', e => { if (step===3) tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchstart', e => {
+    if (step === 3) tx = e.touches[0].clientX;
+  }, { passive: true });
   document.addEventListener('touchend', e => {
-    if (step!==3 || tx===null) return;
+    if (step !== 3 || tx === null) return;
     const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 35) swipe(dx < 0 ? 'left' : 'right');
+    if (Math.abs(dx) > 30) doSwipe(dx < 0 ? 'left' : 'right');
     tx = null;
   });
-
-  let mx = null;
   document.addEventListener('mousedown', e => {
-    if (step===3 && (L1.contains(e.target)||L2.contains(e.target)||e.target===L1||e.target===L2)) mx = e.clientX;
+    if (step === 3) mx = e.clientX;
   });
   document.addEventListener('mouseup', e => {
-    if (step!==3 || mx===null) return;
+    if (step !== 3 || mx === null) return;
     const dx = e.clientX - mx;
-    if (Math.abs(dx) > 35) swipe(dx < 0 ? 'left' : 'right');
+    if (Math.abs(dx) > 30) doSwipe(dx < 0 ? 'left' : 'right');
     mx = null;
   });
 
-  document.addEventListener('click', function(e) {
-    if (step < 3) return;
-    const onEnv     = envWrap.contains(e.target) || e.target === envWrap;
-    const onLetters = L1.contains(e.target) || L2.contains(e.target) || e.target === L1 || e.target === L2;
-    if (!onEnv && !onLetters) { reset(); }
-  });
+  function doSwipe(dir) {
+    const out = topCard === 1 ? document.getElementById('lcard1') : document.getElementById('lcard2');
+    const inc = topCard === 1 ? document.getElementById('lcard2') : document.getElementById('lcard1');
 
-  stage.addEventListener('click', function(e) {
-    const onEnv = envWrap.contains(e.target) || e.target === envWrap;
+    // slide out
+    out.style.transition = 'transform 0.35s ease, opacity 0.35s ease';
+    out.style.transform = dir === 'left'
+      ? 'translateX(-160%) translateY(-10px) rotate(-12deg)'
+      : 'translateX(60%) translateY(-10px) rotate(12deg)';
+    out.style.opacity = '0';
+    out.style.zIndex = '2';
 
-    if (step === 0 && onEnv) {
-      seal.classList.add('breaking');
-      setTimeout(() => { seal.style.display = 'none'; }, 560);
-      step = 1; setDots(1); setHint('click again to open ♡');
+    // bring in from opposite side
+    inc.style.transition = 'none';
+    inc.style.zIndex = '3';
+    inc.style.opacity = '0';
+    inc.style.transform = dir === 'left'
+      ? 'translateX(60%) rotate(8deg)'
+      : 'translateX(-160%) rotate(-8deg)';
 
-    } else if (step === 1 && onEnv) {
-      envWrap.classList.add('flap-open');
-      step = 2; setDots(2); setHint('click to take out the letters ♡');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      inc.style.transition = 'transform 0.45s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s ease';
+      inc.style.transform = 'translateX(-50%) translateY(0) rotate(-1deg)';
+      inc.style.opacity = '1';
+    }));
 
-    } else if (step === 2 && onEnv) {
-      L1.classList.add('show');
-      L2.classList.add('show');
-      step = 3; setDots(3); setHint('swipe left or right to flip letters ♡');
-    }
-  });
+    topCard = topCard === 1 ? 2 : 1;
+    setHint('swipe again to flip ♡');
+  }
 </script>
 </body>
-</html>
-```
+          </html>
