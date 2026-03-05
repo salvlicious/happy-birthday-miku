@@ -32,6 +32,7 @@
       overflow: hidden;
     }
 
+    /* Floating petals */
     .petal {
       position: fixed;
       font-size: 1.2rem;
@@ -45,6 +46,7 @@
       100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
+    /* Main card */
     .card {
       background: rgba(255, 248, 240, 0.85);
       backdrop-filter: blur(8px);
@@ -89,6 +91,7 @@
       letter-spacing: 0.03em;
     }
 
+    /* The oval input wrapper */
     .input-wrap {
       position: relative;
       margin-bottom: 20px;
@@ -97,7 +100,7 @@
     .password-input {
       width: 100%;
       padding: 16px 52px 16px 28px;
-      border-radius: 999px;
+      border-radius: 999px; /* oval / pill shape */
       border: 2px solid var(--blush);
       background: #fff9f4;
       font-family: 'Lato', sans-serif;
@@ -127,6 +130,7 @@
       80%       { transform: translateX(5px); }
     }
 
+    /* Eye toggle */
     .toggle-eye {
       position: absolute;
       right: 18px;
@@ -141,6 +145,7 @@
       line-height: 1;
     }
 
+    /* Enter button */
     .enter-btn {
       width: 100%;
       padding: 15px;
@@ -164,6 +169,7 @@
       transform: translateY(0);
     }
 
+    /* Error message */
     .error-msg {
       margin-top: 14px;
       font-size: 0.85rem;
@@ -175,6 +181,7 @@
     }
     .error-msg.visible { opacity: 1; }
 
+    /* Decorative divider */
     .divider {
       display: flex;
       align-items: center;
@@ -192,6 +199,7 @@
       background: var(--blush);
     }
 
+    /* SUCCESS screen */
     .success-screen {
       display: none;
       flex-direction: column;
@@ -218,6 +226,28 @@
       color: var(--warm-brown);
       margin-bottom: 10px;
     }
+    .continue-btn {
+      margin-top: 28px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--soft-brown), var(--accent));
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(192, 112, 74, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+    .continue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(192, 112, 74, 0.45);
+    }
+    .continue-btn:active { transform: translateY(0); }
+
     .success-screen p {
       color: var(--soft-brown);
       font-size: 0.95rem;
@@ -227,6 +257,7 @@
 </head>
 <body>
 
+  <!-- Floating petals -->
   <div class="petal" style="left:5%;  animation-duration:7s;  animation-delay:0s;   font-size:1rem;">🍂</div>
   <div class="petal" style="left:15%; animation-duration:9s;  animation-delay:1s;   font-size:0.8rem;">✿</div>
   <div class="petal" style="left:30%; animation-duration:8s;  animation-delay:2.5s; font-size:1.1rem;">🌸</div>
@@ -235,6 +266,7 @@
   <div class="petal" style="left:80%; animation-duration:10s; animation-delay:1.5s; font-size:0.8rem;">🍂</div>
   <div class="petal" style="left:92%; animation-duration:8.5s;animation-delay:4s;   font-size:1rem;">🌸</div>
 
+  <!-- Password Card -->
   <div class="card" id="gateCard">
     <span class="icon">🕯️</span>
     <h1>This space is just for you</h1>
@@ -259,10 +291,14 @@
     <div class="divider">♡ with love ♡</div>
   </div>
 
+  <!-- Success screen -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">🎂</div>
     <h2>Welcome in ♡</h2>
     <p>You found your way here — just as I hoped you would.</p>
+    <button class="continue-btn" onclick="window.location.href='envelope.html'">
+      open your gift ♡
+    </button>
   </div>
 
   <script>
@@ -274,6 +310,7 @@
       const val = input.value.trim().toLowerCase();
 
       if (val === PASSWORD) {
+        // Success!
         document.getElementById('gateCard').classList.add('hide');
         document.getElementById('successScreen').classList.add('show');
       } else {
@@ -297,10 +334,10 @@
       }
     }
 
+    // Allow pressing Enter key
     document.getElementById('pwInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') checkPassword();
     });
   </script>
 </body>
-</html>
-```
+    </html>
