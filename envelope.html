@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Letter For You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment: #f2e8d5;
+      --parchment-dark: #e0ceaa;
+      --ink: #2c1a0e;
+      --ink-light: #5a3a1a;
+      --seal: #8b1a1a;
+      --seal-dark: #5c0f0f;
+      --gold: #c8a84b;
+      --gold-light: #e8d080;
+      --envelope-body: #d4b896;
+      --envelope-dark: #b8976a;
+      --envelope-shadow: #8b6940;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #1a0f08;
+      background-image:
+        radial-gradient(ellipse at 30% 20%, #2d1a0a 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, #1f1208 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IM Fell English', serif;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    /* ── Floating petals ── */
+    .petal {
+      position: fixed;
+      opacity: 0;
+      animation: fall linear infinite;
+      pointer-events: none;
+      font-size: 1rem;
+      user-select: none;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg) scale(1);   opacity: 0.6; }
+      50%  { transform: translateY(50vh)  rotate(180deg) scale(0.8); opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(360deg) scale(0.6); opacity: 0; }
+    }
+
+    /* ── Hint text ── */
+    .hint {
+      position: fixed;
+      bottom: 32px;
+      color: #a0784a;
+      font-size: 0.85rem;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: hintFade 2s ease 1.2s forwards;
+      pointer-events: none;
+    }
+    @keyframes hintFade {
+      to { opacity: 0.7; }
+    }
+
+    /* ── Scene container ── */
+    .scene {
+      position: relative;
+      width: 380px;
+      height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ── Page title ── */
+    .page-title {
+      position: fixed;
+      top: 36px;
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: 0.2em;
+      opacity: 0.6;
+      text-shadow: 0 0 20px rgba(200,168,75,0.3);
+    }
+
+    /* ════════════════════════════
+       ENVELOPE
+    ════════════════════════════ */
+    .envelope {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.7));
+      transition: transform 0.3s ease;
+    }
+    .envelope:hover { transform: translateY(-4px); }
+
+    /* Back of envelope */
+    .env-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, var(--envelope-dark) 0%, var(--envelope-body) 60%);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .env-back::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 20px,
+        rgba(0,0,0,0.03) 20px, rgba(0,0,0,0.03) 21px
+      );
+    }
+
+    /* Bottom triangle */
+    .env-bottom {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-bottom: 120px solid var(--envelope-shadow);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Side triangles */
+    .env-left {
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+      border-left: 145px solid rgba(0,0,0,0.08);
+      pointer-events: none;
+    }
+    .env-right {
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+      border-right: 145px solid rgba(0,0,0,0.12);
+      pointer-events: none;
+    }
+
+    /* ── FLAP ── */
+    .env-flap {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+    }
+    .env-flap-inner {
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 115px solid var(--envelope-dark);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+    .env-flap-inner::after {
+      content: '';
+      position: absolute;
+      top: -115px; left: -160px;
+      width: 320px;
+      height: 115px;
+      background: linear-gradient(180deg, var(--parchment-dark) 0%, var(--envelope-dark) 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
+
+    /* Open flap state */
+    .envelope.flap-open .env-flap {
+      transform: rotateX(-180deg);
+    }
+
+    /* ── SEAL ── */
+    .seal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 52px; height: 52px;
+      z-index: 20;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .seal:hover { transform: translate(-50%, -50%) scale(1.08); }
+
+    .seal-circle {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--seal) 0%, var(--seal-dark) 70%);
+      box-shadow: 0 0 0 2px var(--gold), 0 0 0 4px var(--seal-dark), 0 4px 16px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
+    .seal-circle::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(200,168,75,0.4);
+    }
+    .seal-circle::after {
+      content: '';
+      position: absolute;
+      top: 6px; left: 10px;
+      width: 12px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transform: rotate(-30deg);
+    }
+
+    /* Seal broken state */
+    .seal.broken {
+      animation: sealBreak 0.6s ease forwards;
+    }
+    @keyframes sealBreak {
+      0%   { transform: translate(-50%, -50%) scale(1); }
+      30%  { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); }
+      60%  { transform: translate(-50%, -50%) scale(0.9) rotate(-8deg); }
+      100% { transform: translate(-50%, -55%) scale(0) rotate(20deg); opacity: 0; }
+    }
+    .seal.broken .seal-circle {
+      background: radial-gradient(circle at 35% 35%, #a02020 0%, #3a0a0a 70%);
+    }
+
+    /* Seal crack overlay */
+    .seal-crack {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      opacity: 0;
+      background:
+        linear-gradient(45deg, transparent 48%, rgba(0,0,0,0.6) 49%, rgba(0,0,0,0.6) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(0,0,0,0.4) 49%, rgba(0,0,0,0.4) 51%, transparent 52%);
+      transition: opacity 0.2s;
+    }
+    .seal.cracking .seal-crack { opacity: 1; }
+
+    /* ════════════════════════════
+       LETTERS
+    ════════════════════════════ */
+    .letters-container {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .letter {
+      position: absolute;
+      width: 260px;
+      background: var(--parchment);
+      border-radius: 2px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 0 40px rgba(0,0,0,0.04);
+      transform-origin: bottom center;
+      opacity: 0;
+      transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background-image:
+        repeating-linear-gradient(
+          transparent, transparent 27px,
+          rgba(90,58,26,0.12) 27px, rgba(90,58,26,0.12) 28px
+        );
+    }
+
+    /* Parchment texture */
+    .letter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .letter-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--parchment-dark);
+      padding-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+    .letter-body {
+      font-size: 0.72rem;
+      color: var(--ink);
+      line-height: 1.95;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .letter-sig {
+      margin-top: 16px;
+      text-align: right;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    /* Letter 1 - hidden inside envelope */
+    .letter-1 {
+      left: 10px;
+      top: -30px;
+      z-index: 6;
+    }
+    /* Letter 2 - slightly behind */
+    .letter-2 {
+      left: 20px;
+      top: -20px;
+      z-index: 5;
+      background: #ede0c4;
+    }
+
+    /* State: peeking out */
+    .letter-1.peek {
+      opacity: 1;
+      transform: translateY(-60px) rotate(-2deg);
+    }
+    .letter-2.peek {
+      opacity: 1;
+      transform: translateY(-40px) rotate(2.5deg);
+    }
+
+    /* State: fully out, letter 1 on top */
+    .letter-1.out {
+      opacity: 1;
+      transform: translateY(-160px) rotate(-1.5deg);
+      z-index: 8;
+    }
+    .letter-2.out {
+      opacity: 1;
+      transform: translateY(-130px) rotate(3deg);
+      z-index: 7;
+    }
+
+    /* State: letter 2 on top */
+    .letter-2.front {
+      transform: translateY(-160px) rotate(-1deg);
+      z-index: 10;
+      transition: all 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+    .letter-1.back {
+      transform: translateY(-130px) rotate(2.5deg);
+      z-index: 7;
+      transition: all 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+
+    /* ── Step indicator ── */
+    .steps {
+      position: fixed;
+      bottom: 64px;
+      display: flex;
+      gap: 8px;
+    }
+    .step-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4a2e10;
+      transition: all 0.3s ease;
+    }
+    .step-dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      transform: scale(1.3);
+    }
+    .step-dot.done {
+      background: #7a5a30;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="petal" style="left:4%;  animation-duration:8s;  animation-delay:0s;">🌸</div>
+<div class="petal" style="left:12%; animation-duration:10s; animation-delay:1.2s;">✿</div>
+<div class="petal" style="left:25%; animation-duration:7s;  animation-delay:0.5s; font-size:0.7rem;">🍂</div>
+<div class="petal" style="left:40%; animation-duration:12s; animation-delay:2s;">🌸</div>
+<div class="petal" style="left:55%; animation-duration:9s;  animation-delay:0.8s; font-size:0.75rem;">✿</div>
+<div class="petal" style="left:68%; animation-duration:7.5s;animation-delay:3s;">🍂</div>
+<div class="petal" style="left:80%; animation-duration:11s; animation-delay:1.5s;">🌸</div>
+<div class="petal" style="left:92%; animation-duration:8.5s;animation-delay:0.3s; font-size:0.7rem;">✿</div>
+<div class="petal" style="left:33%; animation-duration:9.5s;animation-delay:4s; font-size:0.65rem;">♡</div>
+<div class="petal" style="left:75%; animation-duration:10.5s;animation-delay:2.5s; font-size:0.65rem;">♡</div>
+
+<div class="page-title">a letter for you ♡</div>
+
+<div class="scene" id="scene">
+
+  <!-- Letters (behind envelope) -->
+  <div class="letters-container" id="lettersContainer">
+    <div class="letter letter-2" id="letter2">
+      <div class="letter-heading">ii. something more ♡</div>
+      <div class="letter-body">
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.<br><br>
+        Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+      </div>
+      <div class="letter-sig">— always yours ♡</div>
+    </div>
+
+    <div class="letter letter-1" id="letter1">
+      <div class="letter-heading">i. to my favourite person</div>
+      <div class="letter-body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br><br>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+      </div>
+      <div class="letter-sig">— with love ♡</div>
+    </div>
+  </div>
+
+  <!-- Envelope -->
+  <div class="envelope" id="envelope">
+    <div class="env-back">
+      <div class="env-left"></div>
+      <div class="env-right"></div>
+      <div class="env-bottom"></div>
+    </div>
+
+    <!-- Flap -->
+    <div class="env-flap" id="envFlap">
+      <div class="env-flap-inner"></div>
+    </div>
+
+    <!-- Seal -->
+    <div class="seal" id="seal">
+      <div class="seal-circle" id="sealCircle">
+        <div class="seal-crack" id="sealCrack"></div>
+        ♡
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Step dots -->
+<div class="steps">
+  <div class="step-dot active" id="dot0"></div>
+  <div class="step-dot" id="dot1"></div>
+  <div class="step-dot" id="dot2"></div>
+  <div class="step-dot" id="dot3"></div>
+</div>
+
+<div class="hint" id="hint">click to open ♡</div>
+
+<script>
+  let step = 0;
+  const envelope  = document.getElementById('envelope');
+  const seal      = document.getElementById('seal');
+  const sealCrack = document.getElementById('sealCrack');
+  const envFlap   = document.getElementById('envFlap');
+  const letter1   = document.getElementById('letter1');
+  const letter2   = document.getElementById('letter2');
+  const scene     = document.getElementById('scene');
+
+  function updateDots(current) {
+    for (let i = 0; i < 4; i++) {
+      const dot = document.getElementById('dot' + i);
+      dot.className = 'step-dot';
+      if (i < current) dot.classList.add('done');
+      if (i === current) dot.classList.add('active');
+    }
+  }
+
+  function updateHint(text) {
+    const hint = document.getElementById('hint');
+    hint.style.opacity = '0';
+    setTimeout(() => {
+      hint.textContent = text;
+      hint.style.transition = 'opacity 0.5s ease';
+      hint.style.opacity = '0.7';
+    }, 400);
+  }
+
+  // ── Full reset back to closed envelope ──
+  function resetAll() {
+    step = 0;
+    flapOpen = false;
+    seal.classList.remove('broken');
+    seal.style.display = '';
+    sealCrack.style.opacity = '0';
+    envelope.classList.remove('flap-open');
+    letter1.className = 'letter letter-1';
+    letter2.className = 'letter letter-2';
+    envelope.style.transform = '';
+    currentLetter = 1;
+    // Reset inline letter styles
+    letter1.style.cssText = '';
+    letter2.style.cssText = '';
+    updateDots(0);
+    updateHint('click to open ♡');
+  }
+
+  // ── Main scene click handler ──
+  scene.addEventListener('click', function(e) {
+    const target = e.target;
+    const clickedLetter   = letter1.contains(target) || letter2.contains(target) || target === letter1 || target === letter2;
+    const clickedEnvelope = envelope.contains(target) || target === envelope;
+    const clickedOutside  = !clickedEnvelope && !clickedLetter;
+
+    // Clicking outside when letters are showing → reset
+    if (step >= 3 && clickedOutside) { resetAll(); return; }
+
+    // Step 0 → break the seal
+    if (step === 0 && clickedEnvelope) {
+      sealCrack.style.opacity = '1';
+      setTimeout(() => {
+        seal.classList.add('broken');
+        envelope.style.transition = 'transform 0.1s';
+        envelope.style.transform = 'translateY(-4px) rotate(1deg)';
+        setTimeout(() => {
+          envelope.style.transform = 'translateY(2px) rotate(-0.5deg)';
+          setTimeout(() => { envelope.style.transform = ''; }, 80);
+        }, 80);
+      }, 100);
+      step = 1;
+      updateHint('click again to open the envelope ♡');
+      updateDots(1);
+
+    // Step 1 → open flap
+    } else if (step === 1 && clickedEnvelope) {
+      envelope.classList.add('flap-open');
+      step = 2;
+      updateHint('click to reveal the letters ♡');
+      updateDots(2);
+
+    // Step 2 → pop letters out
+    } else if (step === 2 && clickedEnvelope) {
+      letter1.classList.add('peek');
+      letter2.classList.add('peek');
+      setTimeout(() => {
+        letter1.classList.remove('peek'); letter2.classList.remove('peek');
+        letter1.classList.add('out');     letter2.classList.add('out');
+      }, 50);
+      step = 3;
+      updateHint('swipe the letter to read the next one ♡');
+      updateDots(3);
+
+    }
+  });
+
+  // ── Swipe to flip letters ──
+  let touchStartX = null;
+  let currentLetter = 1; // 1 = letter1 on top, 2 = letter2 on top
+
+  document.addEventListener('touchstart', function(e) {
+    if (step < 3) return;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (step < 3 || touchStartX === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(diff) > 40) flipLetter(diff < 0 ? 'left' : 'right');
+    touchStartX = null;
+  }, { passive: true });
+
+  // Mouse swipe support for desktop
+  let mouseStartX = null;
+  document.addEventListener('mousedown', function(e) {
+    if (step < 3) return;
+    const t = e.target;
+    if (letter1.contains(t) || letter2.contains(t) || t === letter1 || t === letter2) {
+      mouseStartX = e.clientX;
+    }
+  });
+  document.addEventListener('mouseup', function(e) {
+    if (step < 3 || mouseStartX === null) return;
+    const diff = e.clientX - mouseStartX;
+    if (Math.abs(diff) > 40) flipLetter(diff < 0 ? 'left' : 'right');
+    mouseStartX = null;
+  });
+
+  function flipLetter(direction) {
+    const outgoing = currentLetter === 1 ? letter1 : letter2;
+    const incoming = currentLetter === 1 ? letter2 : letter1;
+
+    // Slide outgoing off screen
+    outgoing.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease';
+    outgoing.style.transform = direction === 'left'
+      ? 'translateY(-140px) translateX(-120%) rotate(-8deg)'
+      : 'translateY(-140px) translateX(120%) rotate(8deg)';
+    outgoing.style.opacity = '0';
+    outgoing.style.zIndex = '6';
+
+    // Slide incoming in from opposite side
+    incoming.style.transition = 'none';
+    incoming.style.transform = direction === 'left'
+      ? 'translateY(-140px) translateX(120%) rotate(8deg)'
+      : 'translateY(-140px) translateX(-120%) rotate(-8deg)';
+    incoming.style.opacity = '0';
+    incoming.style.zIndex = '8';
+
+    setTimeout(() => {
+      incoming.style.transition = 'transform 0.45s cubic-bezier(0.34,1.3,0.64,1), opacity 0.35s ease';
+      incoming.style.transform = 'translateY(-160px) rotate(-1.5deg)';
+      incoming.style.
