@@ -1,200 +1,306 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Birthday Animation 💌🎂</title>
-<style>
-body {
-  background: #f5f1ea;
-  font-family: 'Georgia', serif;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter ♡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* CONTAINER FOR ENVELOPE AND LETTERS */
-#envelopeContainer {
-  position: relative;
-  width: 300px;
-  height: 300px;
-}
+    :root {
+      --cream: #fdf6ee;
+      --warm-brown: #7a4f3a;
+      --soft-brown: #b07d62;
+      --blush: #e8c9b0;
+      --accent: #c0704a;
+      --text: #4a2e20;
+    }
 
-/* Placeholders stacked */
-#envelope, #bow, #letter1, #letter2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: white;
-  transition: all 1s ease;
-}
+    body {
+      min-height: 100vh;
+      background-color: var(--cream);
+      background-image:
+        radial-gradient(ellipse at 20% 20%, #f5ddc8 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, #ead5c0 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b07d62' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      overflow: hidden;
+    }
 
-/* Envelope and bow placeholders */
-#envelope { background: #c2a679; }
-#bow { background: #b76e79; }
+    .petal {
+      position: fixed;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
 
-/* Letters initially hidden */
-#letter1 { background: #ffffff; color: black; transform: translateY(100px); opacity: 0; z-index: 1; }
-#letter2 { background: #ffeeaa; color: black; transform: translateY(100px); opacity: 0; z-index: 1; }
+    .card {
+      background: rgba(255, 248, 240, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid var(--blush);
+      border-radius: 28px;
+      padding: 56px 48px 48px;
+      max-width: 460px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 48px rgba(120, 70, 40, 0.12), 0 2px 8px rgba(120,70,40,0.06);
+      animation: fadeUp 0.9s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-/* Bow unravel animation */
-.unravel { transform: translateY(-50px) rotate(-30deg); opacity: 0; }
+    .icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
 
-/* Envelope open animation */
-.openEnvelope { transform: rotateX(180deg); }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      color: var(--warm-brown);
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
 
-/* Letters coming out */
-.showLetter1 { transform: translateY(-50px); opacity: 1; z-index: 2; }
-.showLetter2 { transform: translateY(-60px); opacity: 1; z-index: 3; }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--soft-brown);
+      margin-bottom: 36px;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
 
-/* CAKE PAGE */
-#cakePage {
-  display: none;              /* hidden initially */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+    .input-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
 
-#cake {
-  width:200px;
-  height:150px;
-  background:#f5d0a9;
-  margin:0 auto;
-  position:relative;
-  border-radius:10px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight:bold;
-  color:#333;
-}
+    .password-input {
+      width: 100%;
+      padding: 16px 52px 16px 28px;
+      border-radius: 999px;
+      border: 2px solid var(--blush);
+      background: #fff9f4;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      letter-spacing: 0.05em;
+    }
+    .password-input::placeholder {
+      color: #c8a48a;
+      font-style: italic;
+    }
+    .password-input:focus {
+      border-color: var(--soft-brown);
+      box-shadow: 0 0 0 4px rgba(176, 125, 98, 0.15);
+    }
+    .password-input.error {
+      border-color: #d4826a;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-8px); }
+      40%       { transform: translateX(8px); }
+      60%       { transform: translateX(-5px); }
+      80%       { transform: translateX(5px); }
+    }
 
-#candle {
-  width:20px;
-  height:50px;
-  background:#ffdd00;
-  position:absolute;
-  top:-50px;
-  left:90px;
-  border-radius:5px;
-}
+    .toggle-eye {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--soft-brown);
+      padding: 4px;
+      line-height: 1;
+    }
 
-#flame {
-  width:10px;
-  height:20px;
-  background:orange;
-  border-radius:50%;
-  margin:0 auto;
-  margin-top:-5px;
-}
+    .enter-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--soft-brown), var(--accent));
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      box-shadow: 0 4px 18px rgba(192, 112, 74, 0.35);
+    }
+    .enter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(192, 112, 74, 0.45);
+    }
+    .enter-btn:active {
+      transform: translateY(0);
+    }
 
-#blowButton {
-  margin-top: 30px;
-  padding:15px 25px;
-  font-size:16px;
-  cursor:pointer;
-}
+    .error-msg {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: #b85c3a;
+      font-style: italic;
+      min-height: 20px;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    .error-msg.visible { opacity: 1; }
 
-#message {
-  font-size:18px;
-  margin-top:20px;
-}
-</style>
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 0;
+      color: var(--blush);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blush);
+    }
+
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeUp 0.8s ease both;
+    }
+    .success-screen.show { display: flex; }
+    .card.hide { display: none; }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      animation: pop 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      70%  { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .success-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--warm-brown);
+      margin-bottom: 10px;
+    }
+    .success-screen p {
+      color: var(--soft-brown);
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
 
-<!-- ENVELOPE AND LETTERS -->
-<div id="envelopeContainer">
-  <div id="envelope">Envelope</div>
-  <div id="bow">Bow</div>
-  <div id="letter1">Letter 1</div>
-  <div id="letter2">Letter 2</div>
-</div>
+  <div class="petal" style="left:5%;  animation-duration:7s;  animation-delay:0s;   font-size:1rem;">🍂</div>
+  <div class="petal" style="left:15%; animation-duration:9s;  animation-delay:1s;   font-size:0.8rem;">✿</div>
+  <div class="petal" style="left:30%; animation-duration:8s;  animation-delay:2.5s; font-size:1.1rem;">🌸</div>
+  <div class="petal" style="left:50%; animation-duration:11s; animation-delay:0.5s; font-size:0.9rem;">♡</div>
+  <div class="petal" style="left:65%; animation-duration:7.5s;animation-delay:3s;   font-size:1rem;">✿</div>
+  <div class="petal" style="left:80%; animation-duration:10s; animation-delay:1.5s; font-size:0.8rem;">🍂</div>
+  <div class="petal" style="left:92%; animation-duration:8.5s;animation-delay:4s;   font-size:1rem;">🌸</div>
 
-<!-- CAKE PAGE -->
-<div id="cakePage">
-  <div id="cake">Cake
-    <div id="candle"><div id="flame"></div></div>
+  <div class="card" id="gateCard">
+    <span class="icon">🕯️</span>
+    <h1>This space is just for you</h1>
+    <p class="subtitle">enter the password to step inside ♡</p>
+
+    <div class="input-wrap">
+      <input
+        class="password-input"
+        id="pwInput"
+        type="password"
+        placeholder="enter password..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="toggle-eye" id="eyeBtn" onclick="toggleVisibility()" title="Show/hide">👁</button>
+    </div>
+
+    <button class="enter-btn" onclick="checkPassword()">Enter ♡</button>
+
+    <p class="error-msg" id="errorMsg">hmm, that's not quite right… try again 🌿</p>
+
+    <div class="divider">♡ with love ♡</div>
   </div>
-  <button id="blowButton">Blow the candle!</button>
-  <p id="message"></p>
-</div>
 
-<script>
-const bow = document.getElementById('bow');
-const envelope = document.getElementById('envelope');
-const letter1 = document.getElementById('letter1');
-const letter2 = document.getElementById('letter2');
-const envelopeContainer = document.getElementById('envelopeContainer');
-const cakePage = document.getElementById('cakePage');
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🎂</div>
+    <h2>Welcome in ♡</h2>
+    <p>You found your way here — just as I hoped you would.</p>
+  </div>
 
-// Animate envelope sequence
-function animateEnvelopeSequence() {
-  bow.classList.add('unravel'); // step 1
+  <script>
+    const PASSWORD = "mikulovesdirtbikes";
 
-  setTimeout(() => {
-    envelope.classList.add('openEnvelope'); // step 2
-  }, 1000);
+    function checkPassword() {
+      const input = document.getElementById('pwInput');
+      const errorMsg = document.getElementById('errorMsg');
+      const val = input.value.trim().toLowerCase();
 
-  setTimeout(() => {
-    letter1.classList.add('showLetter1'); // step 3
-    letter2.classList.add('showLetter2');
-  }, 2000);
+      if (val === PASSWORD) {
+        document.getElementById('gateCard').classList.add('hide');
+        document.getElementById('successScreen').classList.add('show');
+      } else {
+        input.classList.add('error');
+        errorMsg.classList.add('visible');
+        setTimeout(() => input.classList.remove('error'), 500);
+        input.value = '';
+        input.focus();
+      }
+    }
 
-  setTimeout(() => {
-    letter1.style.zIndex = 3; // step 4: first letter forward
-    letter2.style.zIndex = 2;
-  }, 3000);
+    function toggleVisibility() {
+      const input = document.getElementById('pwInput');
+      const btn = document.getElementById('eyeBtn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
 
-  setTimeout(() => {
-    letter1.style.zIndex = 2; // step 5: second letter comes forward
-    letter2.style.zIndex = 3;
-  }, 4500);
-
-  setTimeout(() => {
-    envelopeContainer.style.display = 'none'; // step 6: show cake page
-    cakePage.style.display = 'flex';
-  }, 6000);
-}
-
-window.onload = animateEnvelopeSequence;
-
-/* CAKE LOGIC - LONG PRESS */
-const blowButton = document.getElementById('blowButton');
-const candle = document.getElementById('candle');
-const flame = document.getElementById('flame');
-const message = document.getElementById('message');
-let timer;
-
-blowButton.addEventListener('mousedown', startBlow);
-blowButton.addEventListener('touchstart', startBlow);
-blowButton.addEventListener('mouseup', cancelBlow);
-blowButton.addEventListener('mouseleave', cancelBlow);
-blowButton.addEventListener('touchend', cancelBlow);
-
-function startBlow() {
-  message.textContent = "Keep pressing to blow the candle...";
-  timer = setTimeout(() => {
-    flame.style.display = 'none';
-    candle.style.background = '#ddd';
-    message.textContent = "🎉 Candle blown! Happy Birthday! 🎉";
-  }, 5000);
-}
-
-function cancelBlow() {
-  clearTimeout(timer);
-  if (flame.style.display !== 'none') message.textContent = "";
-}
-</script>
+    document.getElementById('pwInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+  </script>
 </body>
 </html>
+```
