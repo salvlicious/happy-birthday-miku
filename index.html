@@ -91,7 +91,6 @@
             transform: translateX(-50%);
         }
 
-        /* Balloon colors - Orange, Red, Gold theme */
         .balloon:nth-child(1) .balloon-body { background: radial-gradient(circle at 35% 30%, #FF6B35, #CC4400); }
         .balloon:nth-child(2) .balloon-body { background: radial-gradient(circle at 35% 30%, #DAA520, #8B6914); }
         .balloon:nth-child(3) .balloon-body { background: radial-gradient(circle at 35% 30%, #c0392b, #7b241c); }
@@ -199,6 +198,7 @@
             backdrop-filter: blur(5px);
             position: relative;
             overflow: hidden;
+            z-index: 100;
         }
 
         .enter-btn:hover {
@@ -243,7 +243,6 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            /* Dark green placeholder - CHANGE THIS to your drawn background */
             background: #1a3a1a;
             background-image: url('assets/envelope-bg.jpg');
             background-size: cover;
@@ -251,14 +250,6 @@
             background-repeat: no-repeat;
         }
 
-        /* If the background image doesn't load, fallback to dark green */
-        @supports not (background-image: url('assets/envelope-bg.jpg')) {
-            #page2 {
-                background: radial-gradient(ellipse at center, #2d5a2d 0%, #1a3a1a 50%, #0d1f0d 100%);
-            }
-        }
-
-        /* Envelope container */
         .envelope-container {
             position: relative;
             z-index: 10;
@@ -267,7 +258,6 @@
             align-items: center;
         }
 
-        /* Closed envelope image placeholder */
         .envelope-closed {
             cursor: pointer;
             transition: all 0.4s ease;
@@ -280,7 +270,6 @@
             filter: brightness(1.1);
         }
 
-        /* REPLACE THIS with your closed envelope image */
         .envelope-closed-img {
             width: 300px;
             height: auto;
@@ -293,7 +282,6 @@
             }
         }
 
-        /* Open envelope view */
         .envelope-open-view {
             display: none;
             position: relative;
@@ -311,7 +299,6 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* REPLACE THIS with your open envelope image (showing two pages inside) */
         .envelope-open-img {
             width: 450px;
             height: auto;
@@ -325,7 +312,6 @@
             }
         }
 
-        /* Pages inside the envelope */
         .pages-container {
             position: absolute;
             top: 50%;
@@ -354,19 +340,13 @@
             border-radius: 3px;
         }
 
-        /* Page 1 (front page) */
         .page-front {
             z-index: 3;
             background: #F5E6D3;
             border: 2px solid #DAA520;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
         }
 
-        /* REPLACE THIS with your page 1 image */
         .page-front-img {
             width: 100%;
             height: 100%;
@@ -374,20 +354,14 @@
             display: block;
         }
 
-        /* Page 2 (peeking from behind) */
         .page-back {
             z-index: 2;
             background: #E8D5C0;
             border: 2px solid #B8860B;
             box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
             transform: translateX(5px) translateY(-3px) rotate(-2deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
         }
 
-        /* REPLACE THIS with your page 2 image */
         .page-back-img {
             width: 100%;
             height: 100%;
@@ -395,7 +369,6 @@
             display: block;
         }
 
-        /* Page flipping animations */
         .page-front.flipped {
             transform: rotateY(-170deg);
             z-index: 1;
@@ -412,7 +385,6 @@
             transform: translateX(5px) translateY(-3px) rotate(-2deg);
         }
 
-        /* Indicator dots */
         .page-indicators {
             display: flex;
             gap: 10px;
@@ -435,7 +407,6 @@
             box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
         }
 
-        /* Click outside hint */
         .close-hint {
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.8em;
@@ -445,7 +416,6 @@
             font-style: italic;
         }
 
-        /* Envelope click hint */
         .envelope-hint {
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.85em;
@@ -458,7 +428,6 @@
             50% { opacity: 0.8; }
         }
 
-        /* Back button */
         .back-to-landing {
             position: absolute;
             top: 20px;
@@ -509,7 +478,6 @@
         <div id="sparklesContainer" class="balloons-layer"></div>
 
         <div class="landing-content">
-            <!-- CHANGE THIS: Your transparent "Happy Birthday Mirko" PNG -->
             <img src="assets/happy-birthday-text.png" alt="Happy Birthday Mirko" class="heading-image">
             
             <button class="enter-btn" onclick="goToEnvelope()">Click to Enter</button>
@@ -518,14 +486,11 @@
 
     <!-- ==================== PAGE 2: ENVELOPE PAGE ==================== -->
     <div id="page2">
-        <!-- Back button -->
         <button class="back-to-landing" onclick="goToLanding()">← Back</button>
 
-        <!-- Closed Envelope View -->
+        <!-- Closed Envelope -->
         <div class="envelope-container" id="closedEnvelope">
-            <!-- REPLACE THIS with your closed envelope image -->
-            <div class="envelope-closed" onclick="openEnvelope()" style="text-align: center;">
-                <!-- Placeholder closed envelope -->
+            <div class="envelope-closed" onclick="openEnvelope()">
                 <svg width="280" height="200" viewBox="0 0 280 200" class="envelope-closed-img">
                     <rect x="10" y="40" width="260" height="145" rx="8" fill="#8B4513" stroke="#DAA520" stroke-width="3"/>
                     <polygon points="10,40 140,130 270,40" fill="#6b3410" stroke="#DAA520" stroke-width="3"/>
@@ -537,27 +502,18 @@
             <p class="envelope-hint">Click the envelope to open</p>
         </div>
 
-        <!-- Open Envelope View -->
+        <!-- Open Envelope -->
         <div class="envelope-open-view" id="openEnvelopeView">
-            <!-- REPLACE THIS with your open envelope image (showing pages inside) -->
             <div style="position: relative; display: inline-block;">
-                <!-- Placeholder open envelope -->
                 <svg width="420" height="300" viewBox="0 0 420 300" class="envelope-open-img">
-                    <!-- Envelope back -->
                     <rect x="30" y="80" width="360" height="190" rx="5" fill="#5a2d0c" stroke="#DAA520" stroke-width="2"/>
-                    <!-- Left flap -->
                     <polygon points="30,80 30,30 210,140 210,270" fill="#8B4513" stroke="#DAA520" stroke-width="2"/>
-                    <!-- Right flap -->
                     <polygon points="390,80 390,30 210,140 210,270" fill="#8B4513" stroke="#DAA520" stroke-width="2"/>
-                    <!-- Bottom flap -->
                     <polygon points="30,270 210,200 390,270" fill="#6b3410" stroke="#DAA520" stroke-width="2"/>
                 </svg>
 
-                <!-- Pages inside -->
                 <div class="pages-container">
-                    <!-- Page 2 (behind, slightly visible) -->
-                    <div class="page-card page-back" id="pageBack" onclick="flipToFront()">
-                        <!-- REPLACE THIS with your page 2 image -->
+                    <div class="page-card page-back sent-back" id="pageBack" onclick="flipToFront()">
                         <div class="page-back-img" style="background: linear-gradient(135deg, #E8D5C0, #d4c4a8); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
                             <span style="color: #8B4513; font-size: 1.2em; text-align: center; padding: 10px;">
                                 📝<br>Page 2<br><small style="font-size: 0.7em;">Click to flip</small>
@@ -565,9 +521,7 @@
                         </div>
                     </div>
 
-                    <!-- Page 1 (front) -->
                     <div class="page-card page-front" id="pageFront" onclick="flipToBack()">
-                        <!-- REPLACE THIS with your page 1 image -->
                         <div class="page-front-img" style="background: linear-gradient(135deg, #F5E6D3, #e8d9c0); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
                             <span style="color: #5a2d0c; font-size: 1.2em; text-align: center; padding: 10px;">
                                 💌<br>Page 1<br><small style="font-size: 0.7em;">Click to flip</small>
@@ -577,7 +531,64 @@
                 </div>
             </div>
 
-            <!-- Page indicators -->
             <div class="page-indicators">
                 <div class="dot active" id="dot1"></div>
-                <
+                <div class="dot" id="dot2"></div>
+            </div>
+
+            <p class="close-hint">Click outside the envelope to close it</p>
+        </div>
+    </div>
+
+    <script>
+        // ============ NAVIGATION ============
+        
+        function goToEnvelope() {
+            console.log("Going to envelope page...");
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'flex';
+        }
+
+        function goToLanding() {
+            console.log("Going back to landing page...");
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page1').style.display = 'flex';
+            // Reset envelope
+            document.getElementById('closedEnvelope').style.display = 'flex';
+            document.getElementById('openEnvelopeView').classList.remove('visible');
+            resetPages();
+        }
+
+        // ============ ENVELOPE OPEN/CLOSE ============
+        
+        function openEnvelope() {
+            console.log("Opening envelope...");
+            document.getElementById('closedEnvelope').style.display = 'none';
+            document.getElementById('openEnvelopeView').classList.add('visible');
+            resetPages();
+        }
+
+        function closeEnvelope() {
+            console.log("Closing envelope...");
+            document.getElementById('openEnvelopeView').classList.remove('visible');
+            document.getElementById('closedEnvelope').style.display = 'flex';
+            resetPages();
+        }
+
+        // ============ PAGE FLIPPING ============
+        
+        let isFrontVisible = true;
+
+        function flipToBack() {
+            if (!isFrontVisible) return;
+            isFrontVisible = false;
+            
+            document.getElementById('pageFront').classList.add('flipped');
+            document.getElementById('pageBack').classList.add('brought-forward');
+            document.getElementById('pageBack').classList.remove('sent-back');
+            
+            document.getElementById('dot1').classList.remove('active');
+            document.getElementById('dot2').classList.add('active');
+        }
+
+ 
