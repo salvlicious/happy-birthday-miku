@@ -1,684 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Mirko 💕</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mirko 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+  body {
+    font-family: 'Dancing Script', cursive;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background: #0d0202;
+  }
 
-        /* ============ PAGE 1: HAPPY BIRTHDAY WELCOME ============ */
-        #page1 {
-            min-height: 100vh;
-            /* REPLACE WITH YOUR BACKGROUND: url('assets/background.jpg') */
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #3d1f1f 60%, #1a0a0a 100%);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+  /* ─────────────────────────────────────────
+     PAGES
+  ───────────────────────────────────────── */
+  .page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+    z-index: 1;
+  }
+  .page.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+  }
 
-        /* Floating balloons */
-        .balloon {
-            position: absolute;
-            bottom: -200px;
-            animation: floatUpBalloon 10s ease-in infinite;
-            pointer-events: none;
-            z-index: 2;
-        }
+  /* ─────────────────────────────────────────
+     PAGE 1 — LANDING
+  ───────────────────────────────────────── */
+  #page-landing { flex-direction: column; }
 
-        .balloon-string {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.4);
-        }
+  /* Background — swap src for your image in assets */
+  .landing-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/bg-landscape.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  @media (orientation: portrait) {
+    .landing-bg { background-image: url('assets/bg-portrait.jpg'); }
+  }
 
-        .balloon-body {
-            width: 80px;
-            height: 100px;
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            position: relative;
-        }
+  /* Sparkle canvas */
+  #sparkle-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
 
-        .balloon-body::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 12px solid inherit;
-        }
+  /* Balloons */
+  .balloon-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+  }
 
-        .balloon:nth-child(1) { left: 8%; animation-delay: 0s; }
-        .balloon:nth-child(1) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(192, 57, 43, 0.8), rgba(123, 36, 28, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(2) { left: 22%; animation-delay: 1.5s; }
-        .balloon:nth-child(2) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(218, 165, 32, 0.8), rgba(139, 105, 20, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(3) { left: 36%; animation-delay: 3s; }
-        .balloon:nth-child(3) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(34, 139, 34, 0.8), rgba(26, 92, 26, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(4) { left: 50%; animation-delay: 4.5s; }
-        .balloon:nth-child(4) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(192, 57, 43, 0.8), rgba(123, 36, 28, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(5) { left: 64%; animation-delay: 6s; }
-        .balloon:nth-child(5) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(218, 165, 32, 0.8), rgba(139, 105, 20, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(6) { left: 78%; animation-delay: 7.5s; }
-        .balloon:nth-child(6) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(139, 69, 19, 0.8), rgba(90, 45, 12, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-        .balloon:nth-child(7) { left: 90%; animation-delay: 2s; }
-        .balloon:nth-child(7) .balloon-body { 
-            background: radial-gradient(circle at 35% 30%, rgba(34, 139, 34, 0.8), rgba(26, 92, 26, 0.9));
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
+  .balloon {
+    position: absolute;
+    bottom: -140px;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    animation: floatUp linear infinite;
+    /* semi-transparent */
+    opacity: 0.45;
+  }
+  .balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: 50%;
+    transform: translateX(-50%);
+    width: 1px; height: 30px;
+    background: rgba(255,255,255,0.3);
+  }
+  .balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -5px; left: 50%;
+    transform: translateX(-50%);
+    width: 7px; height: 7px;
+    background: inherit;
+    filter: brightness(0.6);
+    border-radius: 50%;
+  }
 
-        @keyframes floatUpBalloon {
-            0% {
-                bottom: -200px;
-                transform: translateX(0) rotate(0deg);
-                opacity: 0.7;
-            }
-            25% {
-                transform: translateX(40px) rotate(3deg);
-            }
-            50% {
-                transform: translateX(-20px) rotate(-2deg);
-                opacity: 0.9;
-            }
-            75% {
-                transform: translateX(30px) rotate(4deg);
-            }
-            100% {
-                bottom: 110vh;
-                transform: translateX(-50px) rotate(-3deg);
-                opacity: 0;
-            }
-        }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(-4deg); }
+    50%  { transform: translateY(-50vh) rotate(4deg); }
+    100% { transform: translateY(-120vh) rotate(-3deg); opacity: 0; }
+  }
 
-        .welcome-content {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            padding: 20px;
-        }
+  /* HB Mirko transparent PNG — swap src in assets */
+  .hb-img {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(88vw, 760px);
+    pointer-events: none;
+    z-index: 5;
+    user-select: none;
+  }
+  @media (orientation: portrait) {
+    .hb-img { top: 12%; width: min(95vw, 480px); }
+  }
 
-        /* REPLACE WITH YOUR TRANSPARENT PNG */
-        .birthday-text-placeholder {
-            color: #DAA520;
-            font-size: 3.5em;
-            font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 40px rgba(218, 165, 32, 0.5);
-            letter-spacing: 3px;
-            line-height: 1.3;
-            max-width: 90%;
-        }
+  /* Enter button */
+  .enter-btn {
+    position: absolute;
+    top: 62%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 13px 50px;
+    background: rgba(8, 2, 2, 0.5);
+    color: #fff;
+    border: 1.5px solid #d4a017;
+    border-radius: 50px;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 20px rgba(212,160,23,0.4);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+  .enter-btn:hover {
+    background: rgba(150, 20, 10, 0.7);
+    border-color: rgba(255,255,255,0.7);
+    box-shadow: 0 0 30px rgba(212,160,23,0.7);
+    transform: translateX(-50%) translateY(-2px) scale(1.03);
+  }
+  @media (orientation: portrait) { .enter-btn { top: 56%; } }
+  @media (max-width: 480px)       { .enter-btn { top: 53%; padding: 11px 36px; } }
 
-        .birthday-text-placeholder .name {
-            display: block;
-            color: #c0392b;
-            font-size: 1.3em;
-            margin-top: 5px;
-        }
+  /* ─────────────────────────────────────────
+     PAGE 2 — PASSWORD
+  ───────────────────────────────────────── */
+  #page-password {
+    background: linear-gradient(135deg, #dceeff 0%, #eef6ff 40%, #f0f8ff 70%, #e8f4ff 100%);
+  }
 
-        .birthday-text-image {
-            max-width: 90%;
-            height: auto;
-        }
+  /* floating soft clouds/circles deco */
+  #page-password::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 30%, rgba(180,220,255,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 35% at 80% 70%, rgba(200,230,255,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-        .birthday-text-image img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.5));
-        }
+  .pw-card {
+    position: relative;
+    z-index: 5;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(180,220,255,0.6);
+    border-radius: 28px;
+    padding: 52px 56px 44px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(100,160,220,0.18), 0 2px 0 rgba(255,255,255,0.8) inset;
+  }
 
-        /* Enter button */
-        .enter-btn {
-            padding: 18px 55px;
-            font-size: 1.4em;
-            background: linear-gradient(135deg, #c0392b, #8b1a1a);
-            color: #DAA520;
-            border: 3px solid #DAA520;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
+  .pw-emoji { font-size: 2.4rem; margin-bottom: 10px; display: block; }
 
-        .enter-btn:hover {
-            background: linear-gradient(135deg, #DAA520, #8B6914);
-            color: #1a0a0a;
-            border-color: #c0392b;
-            box-shadow: 0 0 40px rgba(218, 165, 32, 0.7);
-            transform: scale(1.08);
-        }
+  .pw-title {
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    color: #4a7fa5;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
 
-        .enter-btn:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
+  .pw-sub {
+    font-size: 1.05rem;
+    color: #89b4cc;
+    margin-bottom: 28px;
+  }
 
-        .enter-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
-            animation: shimmer 2s infinite;
-        }
+  /* Input row with eye toggle */
+  .pw-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
 
-        @keyframes shimmer {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
+  .pw-input {
+    width: 100%;
+    padding: 13px 46px 13px 18px;
+    border: 1.5px solid #b0d4ee;
+    border-radius: 14px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: #3a6a8a;
+    background: rgba(255,255,255,0.85);
+    outline: none;
+    text-align: center;
+    letter-spacing: 1px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .pw-input:focus {
+    border-color: #7ab8d8;
+    box-shadow: 0 0 0 3px rgba(122,184,216,0.2);
+  }
+  .pw-input.error {
+    border-color: #e08080;
+    animation: shake 0.4s ease;
+  }
 
-        /* Twinkling sparkles */
-        .sparkle {
-            position: absolute;
-            pointer-events: none;
-            z-index: 5;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX(8px); }
+    60%      { transform: translateX(-5px); }
+    80%      { transform: translateX(5px); }
+  }
 
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0) rotate(0deg);
-            }
-            25% {
-                opacity: 0.3;
-                transform: scale(0.5) rotate(90deg);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1) rotate(180deg);
-            }
-            75% {
-                opacity: 0.3;
-                transform: scale(0.5) rotate(270deg);
-            }
-        }
+  /* Eye button */
+  .eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #89b4cc;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+  .eye-btn:hover { color: #4a7fa5; }
 
-        /* ============ PAGE 2: PASSWORD ============ */
-        #page2 {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4ff 25%, #eef2ff 50%, #e0e7ff 75%, #f0f4ff 100%);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+  .eye-icon { width: 22px; height: 22px; }
 
-        /* Soft floating clouds */
-        .cloud {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.6;
-            pointer-events: none;
-            animation: floatCloud 20s linear infinite;
-        }
+  /* Error message */
+  .pw-error {
+    min-height: 22px;
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #c06060;
+    transition: opacity 0.3s;
+  }
 
-        .cloud::before,
-        .cloud::after {
-            content: '';
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-        }
+  /* Unlock button */
+  .unlock-btn {
+    margin-top: 18px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #7ab8d8 0%, #5a9dbf 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #3d7fa0, 0 8px 20px rgba(90,157,191,0.3);
+    transition: all 0.15s ease;
+    letter-spacing: 0.5px;
+  }
+  .unlock-btn:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #3d7fa0, 0 12px 24px rgba(90,157,191,0.35); }
+  .unlock-btn:active { transform: translateY(3px);  box-shadow: 0 2px 0 #3d7fa0; }
 
-        .cloud:nth-child(1) {
-            width: 150px;
-            height: 60px;
-            top: 10%;
-            left: -200px;
-            animation-delay: 0s;
-        }
-        .cloud:nth-child(1)::before {
-            width: 70px;
-            height: 70px;
-            top: -35px;
-            left: 30px;
-        }
-        .cloud:nth-child(1)::after {
-            width: 90px;
-            height: 80px;
-            top: -40px;
-            left: 70px;
-        }
+  /* Confetti canvas */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
 
-        .cloud:nth-child(2) {
-            width: 120px;
-            height: 50px;
-            top: 40%;
-            left: -300px;
-            animation-delay: 7s;
-        }
-        .cloud:nth-child(2)::before {
-            width: 60px;
-            height: 60px;
-            top: -30px;
-            left: 20px;
-        }
-        .cloud:nth-child(2)::after {
-            width: 70px;
-            height: 65px;
-            top: -35px;
-            left: 55px;
-        }
+  /* ─────────────────────────────────────────
+     PAGE 3 — LETTER
+  ───────────────────────────────────────── */
+  #page-letter {
+    flex-direction: column;
+    gap: 24px;
+    /* Background — swap src in assets */
+    background-image: url('assets/letter-bg.jpg');
+    background-size: cover;
+    background-position: center;
+  }
 
-        .cloud:nth-child(3) {
-            width: 100px;
-            height: 40px;
-            top: 70%;
-            left: -250px;
-            animation-delay: 12s;
-        }
-        .cloud:nth-child(3)::before {
-            width: 50px;
-            height: 50px;
-            top: -25px;
-            left: 15px;
-        }
-        .cloud:nth-child(3)::after {
-            width: 60px;
-            height: 55px;
-            top: -28px;
-            left: 45px;
-        }
+  /* Fallback colour if bg not loaded */
+  #page-letter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a0a0a 0%, #2a0f0f 100%);
+    z-index: 0;
+  }
 
-        @keyframes floatCloud {
-            from { transform: translateX(0); }
-            to { transform: translateX(calc(100vw + 400px)); }
-        }
+  .letter-title {
+    position: relative;
+    z-index: 5;
+    color: #d4a017;
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
 
-        .password-box {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(180, 200, 230, 0.5);
-            border-radius: 25px;
-            padding: 50px 45px;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(140, 160, 200, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
-            position: relative;
-            z-index: 10;
-        }
+  /* ── ENVELOPE SCENE ── */
+  .env-scene {
+    position: relative;
+    z-index: 5;
+    width: min(320px, 88vw);
+    height: 420px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
 
-        .password-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
+  /* Envelope wrapper — clickable */
+  .envelope {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+  }
 
-        .password-title {
-            color: #5a7db0;
-            font-size: 1.8em;
-            margin-bottom: 8px;
-            font-weight: normal;
-        }
+  /* Closed envelope image — swap src in assets */
+  .env-closed {
+    width: 100%;
+    display: block;
+    /* placeholder style */
+    min-height: 190px;
+    border-radius: 8px;
+  }
+  /* Open envelope image — swap src in assets */
+  .env-open {
+    width: 100%;
+    display: none;
+    min-height: 190px;
+    border-radius: 8px;
+  }
 
-        .password-subtitle {
-            color: #8ba4c7;
-            margin-bottom: 30px;
-            font-size: 0.95em;
-            font-style: italic;
-        }
+  /* ── LETTER PAPERS ── */
+  .letter-stack {
+    position: absolute;
+    bottom: 170px; /* sits above envelope */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86%;
+    display: none; /* shown when letters revealed */
+  }
 
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 15px;
-        }
+  .letter-page {
+    position: absolute;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1), opacity 0.4s;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
 
-        #passwordInput {
-            width: 100%;
-            padding: 16px 50px 16px 20px;
-            border: 2px solid #c5d5ea;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #4a6fa5;
-            font-size: 1.1em;
-            font-family: 'Georgia', serif;
-            transition: all 0.3s;
-            outline: none;
-        }
+  /* Letter images — swap src in assets */
+  .letter-page img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    /* placeholder style */
+    min-height: 200px;
+    background: #fffef8;
+  }
 
-        #passwordInput:focus {
-            border-color: #8ba4c7;
-            box-shadow: 0 0 20px rgba(138, 164, 199, 0.3);
-            background: white;
-        }
+  /* Page 1 on top, page 2 peeking below */
+  .lp-1 {
+    top: 0;
+    z-index: 3;
+    transform: translateY(0);
+  }
+  .lp-2 {
+    top: 18px; /* peek amount */
+    z-index: 2;
+    transform: translateY(0);
+  }
 
-        #passwordInput::placeholder {
-            color: #b8c9e0;
-        }
+  /* When page 2 is active */
+  .lp-2.active-letter {
+    z-index: 3;
+    transform: translateY(0);
+    top: 0;
+  }
+  .lp-1.behind {
+    z-index: 2;
+    top: 18px;
+  }
 
-        .eye-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 22px;
-            color: #8ba4c7;
-            padding: 5px;
-            transition: color 0.3s;
-            z-index: 5;
-        }
+  /* Click hint */
+  .env-hint {
+    position: relative;
+    z-index: 5;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.95rem;
+    text-align: center;
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.65; }
+    50%      { opacity: 0.2; }
+  }
 
-        .eye-toggle:hover {
-            color: #4a6fa5;
-        }
+</style>
+</head>
+<body>
 
-        .unlock-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #8ba4c7, #6b8fb3);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.1em;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            letter-spacing: 3px;
-            transition: all 0.3s;
-            margin-top: 5px;
-        }
+<canvas id="confetti-canvas"></canvas>
 
-        .unlock-btn:hover {
-            background: linear-gradient(135deg, #9db8d8, #7ba0c4);
-            box-shadow: 0 8px 25px rgba(107, 143, 179, 0.4);
-            transform: translateY(-2px);
-        }
+<!-- ═══════════════════════════════════════
+     PAGE 1 — LANDING
+═══════════════════════════════════════ -->
+<div class="page active" id="page-landing">
 
-        .unlock-btn:active {
-            transform: translateY(0);
-        }
+  <!-- SWAP: replace with your landscape/portrait bg via assets/ -->
+  <div class="landing-bg"></div>
 
-        .error-message {
-            color: #e8787a;
-            margin-top: 12px;
-            display: none;
-            font-size: 0.95em;
-            animation: fadeInShake 0.5s;
-        }
+  <canvas id="sparkle-canvas"></canvas>
+  <div class="balloon-wrap" id="balloon-wrap"></div>
 
-        .error-message.show {
-            display: block;
-        }
+  <!-- SWAP: replace src with assets/hb-mirko.png -->
+  <img class="hb-img"
+       src="assets/hb-mirko.png"
+       alt="Happy Birthday Mirko"
+       onerror="this.style.display='none'" />
 
-        @keyframes fadeInShake {
-            0% { opacity: 0; transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-5px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
+  <button class="enter-btn" onclick="goTo('page-password')">click to enter ✨</button>
+</div>
 
-        .back-link {
-            background: none;
-            border: none;
-            color: #8ba4c7;
-            margin-top: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-family: 'Georgia', serif;
-            text-decoration: underline;
-            transition: color 0.3s;
-        }
+<!-- ═══════════════════════════════════════
+     PAGE 2 — PASSWORD
+═══════════════════════════════════════ -->
+<div class="page" id="page-password">
+  <div class="pw-card">
+    <span class="pw-emoji">🔐</span>
+    <p class="pw-title">enter the password</p>
+    <p class="pw-sub">psst — you know this one 🤫</p>
 
-        .back-link:hover {
-            color: #4a6fa5;
-        }
+    <div class="pw-input-wrap">
+      <input
+        type="password"
+        id="pw-input"
+        class="pw-input"
+        placeholder="type here..."
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter') checkPw()"
+      />
+      <button class="eye-btn" onclick="toggleEye()" id="eye-btn" title="show/hide password">
+        <!-- Closed eye (default) -->
+        <svg id="eye-closed" class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+          <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+          <line x1="1" y1="1" x2="23" y2="23"/>
+        </svg>
+        <!-- Open eye (hidden by default) -->
+        <svg id="eye-open" class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </div>
 
-        /* Confetti */
-        .confetti-piece {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            animation: confettiFall var(--fall-duration) linear forwards;
-        }
+    <p class="pw-error" id="pw-error"></p>
+    <button class="unlock-btn" onclick="checkPw()">unlock 🔓</button>
+  </div>
+</div>
 
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(var(--rotation));
-                opacity: 0;
-            }
-        }
+<!-- ═══════════════════════════════════════
+     PAGE 3 — LETTER
+═══════════════════════════════════════ -->
+<div class="page" id="page-letter">
 
-        /* ============ PAGE 3: LETTER ============ */
-        #page3 {
-            min-height: 100vh;
-            /* REPLACE WITH YOUR BACKGROUND: url('assets/letter-background.jpg') */
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #1b0f0f 60%, #1a0a0a 100%);
-            background-size: cover;
-            background-position: center;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-        }
+  <p class="letter-title">a little something for you 💌</p>
 
-        .letter-stage {
-            position: relative;
-            width: 400px;
-            height: 550px;
-            margin: 0 auto;
-        }
+  <div class="env-scene" id="env-scene">
 
-        /* REPLACE: Closed envelope image */
-        .closed-envelope {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 350px;
-            height: 250px;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.5s ease;
-            /* PLACEHOLDER - Replace with your image */
-            background: linear-gradient(135deg, #8B4513, #5a2d0c);
-            border: 4px solid #DAA520;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #DAA520;
-            font-size: 1.4em;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
+    <!-- Letter stack (hidden until revealed) -->
+    <div class="letter-stack" id="letter-stack">
+      <!-- Page 1 — SWAP src with assets/letter-page1.png -->
+      <div class="letter-page lp-1" id="lp-1" onclick="flipLetter(event)">
+        <img src="assets/letter-page1.png" alt="Letter page 1"
+             onerror="this.src=''; this.closest('.letter-page').style.background='#fffef8'; this.closest('.letter-page').style.minHeight='220px';" />
+      </div>
+      <!-- Page 2 — SWAP src with assets/letter-page2.png -->
+      <div class="letter-page lp-2" id="lp-2" onclick="flipLetter(event)">
+        <img src="assets/letter-page2.png" alt="Letter page 2"
+             onerror="this.src=''; this.closest('.letter-page').style.background='#fffef8'; this.closest('.letter-page').style.minHeight='220px';" />
+      </div>
+    </div>
 
-        .closed-envelope img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+    <!-- Envelope — SWAP srcs with assets/envelope-closed.png and assets/envelope-open.png -->
+    <div class="envelope" id="envelope" onclick="handleEnvClick(event)">
+      <img class="env-closed" id="env-closed"
+           src="assets/envelope-closed.png" alt="Closed envelope"
+           onerror="this.style.background='#f5e6c0'; this.style.border='2px solid #d4a017';" />
+      <img class="env-open" id="env-open"
+           src="assets/envelope-open.png" alt="Open envelope"
+           onerror="this.style.background='#ead5a0'; this.style.border='2px solid #d4a017';" />
+    </div>
 
-        .closed-envelope.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0.8);
-        }
+  </div>
 
-        /* REPLACE: Open envelope image */
-        .open-envelope {
-            position: absolute;
-            top: 43%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 380px;
-            height: 280px;
-            cursor: pointer;
-            z-index: 5;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s ease;
-            /* PLACEHOLDER */
-            background: linear-gradient(135deg, #a0622e, #6b3410);
-            border: 4px solid #DAA520;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #DAA520;
-            font-size: 1.2em;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
+  <p class="env-hint" id="env-hint">tap the envelope to open it ✨</p>
 
-        .open-envelope img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+</div>
 
-        .open-envelope.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
+<script>
+  // ═══════════════════════════════════════
+  // PAGE TRANSITIONS
+  // ═══════════════════════════════════════
+  function goTo(id) {
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+    });
+    setTimeout(() => {
+      document.getElementById(id).classList.add('active');
+    }, 50);
+  }
 
-        /* Letter pages container */
-        .letter-pages-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px;
-            height: 280px;
-            z-index: 1;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
+  // ═══════════════════════════════════════
+  // SPARKLES
+  // ═══════════════════════════════════════
+  const sc = document.getElementById('sparkle-canvas');
+  const sx = sc.getContext('2d');
+  function resizeSC() { sc.width = innerWidth; sc.height = innerHeight; }
+  resizeSC();
+  window.addEventListener('resize', resizeSC);
 
-        .letter-pages-container.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
+  const sparks = Array.from({length: 110}, () => ({
+    x: Math.random() * innerWidth,
+    y: Math.random() * innerHeight,
+    r: 0.4 + Math.random() * 1.5,
+    speed: 0.004 + Math.random() * 0.013,
+    phase: Math.random() * Math.PI * 2,
+    gold: Math.random() > 0.45
+  }));
 
-        /* REPLACE: Letter page images */
-        .letter-page {
-            position: absolute;
-            width: 300px;
-            height: 200px;
-            background: #F5E6D3;
-            border: 2px solid #DAA520;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 3;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8B4513;
-            font-size: 1.1em;
-        }
+  (function animateSparks(t) {
+    sx.clearRect(0, 0, sc.width, sc.height);
+    sparks.forEach(s => {
+      const a = 0.1 + 0.9 * Math.abs(Math.sin(t * s.speed + s.phase));
+      sx.beginPath();
+      sx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      sx.fillStyle = s.gold
+        ? `rgba(212,170,30,${a})`
+        : `rgba(255,230,200,${a * 0.65})`;
+      sx.fill();
+    });
+    requestAnimationFrame(animateSparks);
+  })(0);
 
-        .letter-page img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 6px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+  // ═══════════════════════════════════════
+  // BALLOONS
+  // ═══════════════════════════════════════
+  const balloonColors = [
+    'rgba(139,0,0,0.55)',
+    'rgba(192,57,43,0.5)',
+    'rgba(212,160,23,0.5)',
+    'rgba(122,26,26,0.5)',
+    'rgba(184,134,11,0.45)',
+    'rgba(160,20,20,0.48)'
+  ];
+  const bw = document.getElementById('balloon-wrap');
+  for (let i = 0; i < 12; i++) {
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    const w = 28 + Math.random() * 22;
+    const dur = 10 + Math.random() * 10;
+    b.style.cssText = `
+      left:${3 + i * 8 + (Math.random()-0.5)*5}%;
+      width:${w}px; height:${w*1.28}px;
+      background:${balloonColors[i % balloonColors.length]};
+      animation-duration:${dur}s;
+      animation-delay:${-(Math.random()*dur)}s;
+    `;
+    bw.appendChild(b);
+  }
 
-        /* Default positions - Page 1 on top */
-        .letter-page-1 {
-            top: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 6;
-        }
+  // ═══════════════════════════════════════
+  // PASSWORD
+  // ═══════════════════════════════════════
+  const PASSWORD = 'mirkoissalvassweetboy';
+  let eyeVisible = false;
 
-        .letter-page-2 {
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-        }
+  function toggleEye() {
+    eyeVisible = !eyeVisible;
+    const inp = document.getElementById('pw-input');
+    inp.type = eyeVisible ? 'text' : 'password';
+    document.getElementById('eye-open').style.display  = eyeVisible ? 'block' : 'none';
+    document.getElementById('eye-closed').style.display = eyeVisible ? 'none'  : 'block';
+  }
 
-        .letter-page-3 {
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-        }
+  function checkPw() {
+    const inp = document.getElementById('pw-input');
+    const err = document.getElementById('pw-error');
+    const val = inp.value.trim().toLowerCase().replace(/\s/g, '');
 
-        /* State: Page 2 active (page 1 peeks below page 2) */
-        .letter-pages-container.state-2 .letter-page-1 {
-            top: 30px;
-            z-index: 5;
-            transform: translateX(-50%) rotate(-1deg);
-        }
-        .letter-pages-container.state-2 .letter-page-2 {
-            top: 0px;
-            z-index: 6;
-            transform: translateX(-50%) rotate(0.5deg);
-        }
-        .letter-pages-container.state-2 .letter-page
+    if (val === PASSWORD) {
+      err.textContent = '';
+      launchConfetti();
+      setTimeout(() => {
+        goTo('page-letter');
+        inp.value = '';
+      }, 1600);
+    } else {
+      inp.classList.add('error');
+      err.textContent = "That's not the password, try again honey 🩷";
+      setTimeout(() => inp.classList.remove('error'), 500);
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // CONFETTI
+  // ═══════════════════════════════════════
+  function launchConfetti() {
+    const cv = document.getElementById('confetti-canvas');
+    const cx = cv.getContext('2d');
+    cv.width = innerWidth; cv.height = innerHeight;
+    const cols = ['#c0392b','#d4a017','#7ab8d8','#a8d8a8','#f5e6c0','#ffffff','#5a9dbf'];
+    const pieces = Array.from({length: 180}, () => ({
+      x: Math.random() * cv.width,
+      y: -10 - Math.random() * 120,
+      r: 4 + Math.random() * 6,
+      color: cols[Math.floor(Math.random() * cols.length)],
+      vx: (Math.random() - 0.5) * 5,
+      vy: 3 + Math.random() * 5,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.18
+    }));
+    let frame = 0;
+    (function draw() {
+      cx.clearRect(0, 0, cv.width, cv.height);
+      pieces.forEach(p => {
+        cx.save();
+        cx.translate(p.x, p.y);
+        cx.rotate(p.angle);
+        cx.fillStyle = p.color;
+        cx.fillRect(-p.r/2, -p.r/2, p.r, p.r * 2.2);
+        cx.restore();
+        p.x += p.vx; p.y += p.vy;
+        p.angle += p.spin; p.vy += 0.06;
+      });
+      if (++frame < 140) requestAnimationFrame(draw);
+      else cx.clearRect(0, 0, cv.width, cv.height);
+    })();
+  }
+
+  // ═══════════════════════════════════════
+  // ENVELOPE / LETTER LOGIC
+  // ═══════════════════════════════════════
+  // States: 'closed' → 'open' → 'letters'
+  // Within 'letters': letter 1 or 2 on top
+  // Clicking outside letters → back to 'closed'
+
+  let envState = 'closed'; // 'closed' | 'open' | 'letters'
+  let activeLetter = 1;    // 1 or 2
+
+  function handleEnvClick(e) {
+    e.stopPropagation();
+    if (envState === 'closed') {
+      // Show open envelope
+      document.getElementById('env-closed').style.display = 'none';
+      document.getElementById('env-open').style.display   = 'block';
+      document.getElementById('env-hint').textContent = 'tap again to take out the letters ✉️';
+      envState = 'open';
+
+    } else if (envState === 'open') {
+      // Reveal letters
+      const stack = document.getElementById('letter-stack');
+      stack.style.display = 'block';
+      document.getElementById('env-hint').textContent = 'tap a letter to flip, tap outside to close 💌';
+      envState = 'letters';
+      activeLetter = 1;
+      updateLetterView();
+    }
+    // If letters are out, clicking envelope does nothing
+  }
+
+  function flipLetter(e) {
+    e.stopPropagation();
+    
