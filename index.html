@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday My Love 💕</title>
+    <title>Happy Birthday Mirko 💕</title>
     <style>
         * {
             margin: 0;
@@ -16,163 +16,135 @@
             overflow-x: hidden;
         }
 
-        /* ============ PAGE 1: BALLOON WELCOME ============ */
+        /* ============ PAGE 1: HAPPY BIRTHDAY ============ */
         #page1 {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #3d1f1f 60%, #1a0a0a 100%);
+            /* REPLACE with your background image */
+            background: url('images/background.jpg') center/cover no-repeat;
+            /* Fallback color if image doesn't load */
+            background-color: #1a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .balloon {
-            position: absolute;
-            bottom: -150px;
-            width: 80px;
-            height: 100px;
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            animation: floatUp 8s ease-in infinite;
-        }
-
-        .balloon:nth-child(1) { left: 10%; background: radial-gradient(circle at 30% 30%, #c0392b, #7b241c); animation-delay: 0s; }
-        .balloon:nth-child(2) { left: 25%; background: radial-gradient(circle at 30% 30%, #228B22, #1a5c1a); animation-delay: 2s; }
-        .balloon:nth-child(3) { left: 40%; background: radial-gradient(circle at 30% 30%, #DAA520, #8B6914); animation-delay: 4s; }
-        .balloon:nth-child(4) { left: 55%; background: radial-gradient(circle at 30% 30%, #8B4513, #5a2d0c); animation-delay: 1s; }
-        .balloon:nth-child(5) { left: 70%; background: radial-gradient(circle at 30% 30%, #c0392b, #7b241c); animation-delay: 3s; }
-        .balloon:nth-child(6) { left: 85%; background: radial-gradient(circle at 30% 30%, #DAA520, #8B6914); animation-delay: 5s; }
-
-        @keyframes floatUp {
-            0% { bottom: -150px; transform: translateX(0) rotate(0deg); }
-            50% { transform: translateX(30px) rotate(5deg); }
-            100% { bottom: 110vh; transform: translateX(-30px) rotate(-5deg); }
-        }
-
-        .welcome-box {
+        .welcome-content {
+            text-align: center;
             position: relative;
             z-index: 10;
-            text-align: center;
-            background: rgba(26, 10, 10, 0.85);
-            border: 3px solid #DAA520;
-            border-radius: 20px;
-            padding: 50px 40px;
-            box-shadow: 0 0 50px rgba(218, 165, 32, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
-        .gold-text {
-            color: #DAA520;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        /* REPLACE with your transparent Happy Birthday Mirko PNG */
+        .birthday-text {
+            max-width: 90%;
+            height: auto;
+            /* This is where your transparent PNG goes */
         }
 
-        .red-text {
-            color: #c0392b;
-            font-size: 1.8em;
-            margin-bottom: 30px;
-            font-style: italic;
+        .birthday-text img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
         }
 
-        .enter-btn {
-            display: inline-block;
-            padding: 15px 50px;
-            font-size: 1.3em;
-            background: linear-gradient(135deg, #c0392b, #8b1a1a);
-            color: #DAA520;
-            border: 2px solid #DAA520;
-            border-radius: 50px;
+        /* REPLACE with your enter button PNG */
+        .enter-button {
             cursor: pointer;
-            font-family: 'Georgia', serif;
-            transition: all 0.3s ease;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-decoration: none;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
-        .enter-btn:hover {
-            background: linear-gradient(135deg, #DAA520, #8B6914);
-            color: #1a0a0a;
-            border-color: #c0392b;
-            box-shadow: 0 0 30px rgba(218, 165, 32, 0.6);
-            transform: scale(1.05);
+        .enter-button img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
         }
 
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #DAA520;
-            border-radius: 50%;
-            animation: sparkle 2s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 5;
+        .enter-button:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
         }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        .enter-button:active {
+            transform: scale(0.95);
         }
 
         /* ============ PAGE 2: PASSWORD ============ */
         #page2 {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 30%, #1a1a2e 60%, #0d1b2a 100%);
+            /* REPLACE with your password page background */
+            background: url('images/password-bg.jpg') center/cover no-repeat;
+            background-color: #0d1b2a;
             display: none;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        .password-box {
-            background: rgba(13, 27, 42, 0.9);
-            border: 2px solid #6B7FD6;
-            border-radius: 15px;
-            padding: 40px;
+        .password-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 50px 40px;
             text-align: center;
-            box-shadow: 0 0 40px rgba(107, 127, 214, 0.3);
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
+            border: 2px solid rgba(107, 127, 214, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .lock-icon {
-            font-size: 50px;
+            font-size: 60px;
             margin-bottom: 20px;
         }
 
-        .password-box h2 {
+        .password-title {
             color: #E8D5FF;
-            margin-bottom: 10px;
-            font-size: 1.8em;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-family: 'Georgia', serif;
         }
 
-        .hint {
+        .hint-text {
             color: #A8B8D8;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-style: italic;
-            font-size: 0.9em;
+            font-size: 1em;
+            line-height: 1.5;
         }
 
         #passwordInput {
             width: 100%;
-            padding: 15px;
+            padding: 15px 20px;
             border: 2px solid #6B7FD6;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
             color: #E8D5FF;
             font-size: 1.2em;
             text-align: center;
             font-family: 'Georgia', serif;
             margin-bottom: 20px;
+            transition: all 0.3s;
         }
 
         #passwordInput:focus {
             outline: none;
             border-color: #DAA520;
-            box-shadow: 0 0 20px rgba(107, 127, 214, 0.5);
+            box-shadow: 0 0 25px rgba(107, 127, 214, 0.6);
+        }
+
+        #passwordInput::placeholder {
+            color: rgba(168, 184, 216, 0.5);
         }
 
         .submit-btn {
-            padding: 12px 40px;
+            padding: 14px 45px;
             background: linear-gradient(135deg, #6B7FD6, #4A5BB8);
             color: white;
             border: none;
@@ -186,13 +158,15 @@
 
         .submit-btn:hover {
             background: linear-gradient(135deg, #DAA520, #8B6914);
-            box-shadow: 0 0 25px rgba(218, 165, 32, 0.5);
+            box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+            transform: translateY(-2px);
         }
 
         .error-msg {
-            color: #c0392b;
+            color: #ff6b6b;
             margin-top: 15px;
             display: none;
+            font-size: 0.95em;
         }
 
         .error-msg.show {
@@ -208,265 +182,281 @@
 
         .back-btn {
             background: none;
-            border: none;
-            color: #6B7FD6;
-            margin-top: 20px;
+            border: 1px solid rgba(107, 127, 214, 0.5);
+            color: #A8B8D8;
+            margin-top: 25px;
+            padding: 10px 25px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 0.9em;
             font-family: 'Georgia', serif;
+            transition: all 0.3s;
         }
 
-        .back-btn:hover { color: #DAA520; }
+        .back-btn:hover {
+            background: rgba(107, 127, 214, 0.2);
+            color: #E8D5FF;
+        }
 
         /* ============ PAGE 3: LETTER ============ */
         #page3 {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #1b0f0f 60%, #1a0a0a 100%);
+            /* REPLACE with your letter page background */
+            background: url('images/letter-bg.jpg') center/cover no-repeat;
+            background-color: #1a0a0a;
             display: none;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
         }
 
         .letter-container {
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             position: relative;
             z-index: 10;
         }
 
-        .envelope-wrapper {
+        /* Envelope section */
+        .envelope-section {
             position: relative;
-            width: 300px;
-            height: 200px;
-            margin: 0 auto 30px;
+            display: inline-block;
             cursor: pointer;
+            transition: transform 0.3s;
         }
 
-        .envelope {
-            position: absolute;
+        .envelope-section:hover {
+            transform: scale(1.05);
+        }
+
+        /* REPLACE with your closed envelope PNG */
+        .closed-envelope {
+            display: block;
+            max-width: 350px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #8B4513, #5a2d0c);
-            border: 3px solid #DAA520;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.3);
+            height: auto;
         }
 
-        .envelope-front {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #5a2d0c, #3d1f0f);
-            border: 2px solid #DAA520;
-            border-radius: 10px;
-            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 100% 100%, 0% 100%);
-            z-index: 2;
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #8B4513, #6b3410);
-            border: 2px solid #DAA520;
-            border-radius: 10px;
-            clip-path: polygon(0% 0%, 50% 50%, 100% 0%);
-            z-index: 3;
-            transform-origin: top center;
-            transition: transform 0.6s ease;
-        }
-
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
-
-        .seal {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, #c0392b, #8b1a1a);
-            border: 2px solid #DAA520;
-            border-radius: 50%;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
-            transition: all 0.3s;
-        }
-
-        .envelope-wrapper.open .seal {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-        }
-
-        .letter-content {
+        /* REPLACE with your open envelope PNG (hidden initially) */
+        .open-envelope {
             display: none;
-            background: linear-gradient(135deg, #F5E6D3, #E8D5C0);
+            max-width: 350px;
+            width: 100%;
+            height: auto;
+        }
+
+        .envelope-section.opened .closed-envelope {
+            display: none;
+        }
+
+        .envelope-section.opened .open-envelope {
+            display: block;
+        }
+
+        .click-hint {
+            color: #DAA520;
+            margin-top: 15px;
+            font-size: 1em;
+            font-style: italic;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Letter content box */
+        .letter-content-box {
+            display: none;
+            background: rgba(245, 230, 211, 0.95);
             border: 3px solid #DAA520;
             border-radius: 15px;
-            padding: 40px 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-            margin-top: 30px;
+            padding: 40px 35px;
+            margin-top: 40px;
             text-align: left;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 0.8s ease;
         }
 
-        .letter-content.visible {
+        .letter-content-box.visible {
             display: block;
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .letter-content h2 {
+        .letter-content-box h2 {
             color: #8B4513;
-            margin-bottom: 20px;
             text-align: center;
-            font-size: 1.8em;
+            font-size: 2em;
+            margin-bottom: 25px;
         }
 
-        .letter-content p {
+        .letter-content-box p {
             color: #3d1f0f;
-            line-height: 1.8;
-            margin-bottom: 15px;
+            line-height: 1.9;
+            margin-bottom: 18px;
             font-size: 1.1em;
         }
 
         .signature {
             text-align: right;
-            margin-top: 30px;
+            margin-top: 35px;
             color: #c0392b;
             font-style: italic;
+            font-size: 1.2em;
         }
 
-        .instruction {
-            color: #DAA520;
-            margin-top: 10px;
-            font-size: 0.9em;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
+        /* Falling hearts */
         .falling-heart {
             position: absolute;
             animation: fallDown 4s linear infinite;
-            font-size: 20px;
+            font-size: 24px;
             opacity: 0;
             pointer-events: none;
-            z-index: 1;
+            z-index: 5;
         }
 
         @keyframes fallDown {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Responsive */
         @media (max-width: 600px) {
-            .gold-text { font-size: 1.8em; }
-            .red-text { font-size: 1.3em; }
-            .welcome-box { padding: 30px 20px; }
-            .envelope-wrapper { width: 250px; height: 170px; }
-        }
-
-        .subtitle-note {
-            color: #8B4513;
-            margin-top: 20px;
-            font-size: 0.9em;
+            .password-overlay {
+                padding: 30px 25px;
+            }
+            .password-title {
+                font-size: 1.5em;
+            }
+            .letter-content-box {
+                padding: 25px 20px;
+            }
+            .letter-content-box h2 {
+                font-size: 1.5em;
+            }
+            .birthday-text img {
+                max-width: 300px;
+            }
+            .enter-button img {
+                max-width: 180px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==================== PAGE 1: BALLOON WELCOME ==================== -->
+    <!-- ==================== PAGE 1: HAPPY BIRTHDAY ==================== -->
     <div id="page1">
-        <!-- Balloons -->
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
+        <div class="welcome-content">
+            <!-- REPLACE: Your transparent Happy Birthday Mirko PNG -->
+            <div class="birthday-text">
+                <img src="images/happy-birthday-mirko.png" alt="Happy Birthday Mirko">
+            </div>
 
-        <!-- Sparkles container -->
-        <div id="sparklesContainer"></div>
-
-        <!-- Welcome box -->
-        <div class="welcome-box">
-            <h1 class="gold-text">✦ Happy Birthday ✦</h1>
-            <p class="red-text">My Love</p>
-            <button class="enter-btn" id="enterButton">✨ Enter ✨</button>
-            <p class="subtitle-note">A special message awaits you...</p>
+            <!-- REPLACE: Your enter button PNG -->
+            <button class="enter-button" id="enterButton">
+                <img src="images/enter-button.png" alt="Click to Enter">
+            </button>
         </div>
     </div>
 
     <!-- ==================== PAGE 2: PASSWORD ==================== -->
     <div id="page2">
-        <div class="password-box" id="passwordBox">
+        <div class="password-overlay" id="passwordOverlay">
             <div class="lock-icon">🔐</div>
-            <h2>Secret Message</h2>
-            <p class="hint">Enter the special date to unlock...</p>
-            <p class="hint" style="font-size: 0.8em;">Hint: When we first met (DDMMYY)</p>
+            <h2 class="password-title">Secret Message 🔒</h2>
+            <p class="hint-text">
+                Enter the password to unlock<br>your special birthday letter...
+            </p>
             
-            <input type="password" id="passwordInput" placeholder="Enter password..." maxlength="6">
+            <input 
+                type="password" 
+                id="passwordInput" 
+                placeholder="Type password here..." 
+                autocomplete="off"
+            >
             <br>
-            <button class="submit-btn" id="submitPasswordBtn">Unlock 💌</button>
-            <p class="error-msg" id="errorMsg">That's not it... try again 💕</p>
+            <button class="submit-btn" id="submitPasswordBtn">
+                Unlock 💌
+            </button>
+            
+            <p class="error-msg" id="errorMsg">
+                ❌ Wrong password! Try again sweet boy...
+            </p>
+            
             <br>
-            <button class="back-btn" id="backToWelcomeBtn">← Go back</button>
+            <button class="back-btn" id="backToWelcomeBtn">
+                ← Back to birthday page
+            </button>
         </div>
     </div>
 
     <!-- ==================== PAGE 3: LETTER ==================== -->
     <div id="page3">
         <div class="letter-container">
-            <div class="envelope-wrapper" id="envelopeWrapper">
-                <div class="envelope">
-                    <div class="envelope-front"></div>
-                    <div class="envelope-flap"></div>
-                    <div class="seal">💝</div>
-                </div>
+            <!-- Envelope section -->
+            <div class="envelope-section" id="envelopeSection">
+                <!-- REPLACE: Your closed envelope PNG -->
+                <img 
+                    src="images/closed-envelope.png" 
+                    alt="Open your letter" 
+                    class="closed-envelope"
+                >
+                <!-- REPLACE: Your open envelope PNG -->
+                <img 
+                    src="images/open-envelope.png" 
+                    alt="Your letter" 
+                    class="open-envelope"
+                >
             </div>
-            <p class="instruction" id="instruction">↑ Click the envelope to open ↑</p>
+            
+            <p class="click-hint" id="clickHint">
+                ✨ Click the envelope to open ✨
+            </p>
 
-            <!-- Letter content -->
-            <div class="letter-content" id="letterContent">
-                <h2>💌 My Dearest Love 💌</h2>
+            <!-- Letter content (this appears after envelope opens) -->
+            <div class="letter-content-box" id="letterContentBox">
+                <h2>💌 My Dearest Mirko 💌</h2>
                 
-                <p>Happy Birthday to the most amazing person in my life! 🎂</p>
+                <p>Happy Birthday to the most amazing sweet boy in the entire world! 🎂</p>
                 
-                <p>On this special day, I want to take a moment to tell you just how much you mean to me. Every day with you is a gift I treasure more than words can express.</p>
+                <p>On this incredibly special day, I want you to know just how much you mean to me. Every single moment with you is a treasure I hold close to my heart.</p>
                 
-                <p>Your smile lights up my darkest days, your laugh is the sweetest melody, and your love makes my world complete. You've shown me what true happiness feels like.</p>
+                <p>Your smile brightens even my darkest days. Your laugh is the sweetest melody I've ever heard. And your love... your love makes my world complete in ways I never knew possible.</p>
                 
-                <p>Today we celebrate YOU - the wonderful, kind, and incredible person who makes my heart skip a beat every single time I see you.</p>
+                <p>Today, we celebrate YOU - the wonderful, kind, caring, and absolutely incredible person who makes my heart skip a beat every time I see you.</p>
                 
-                <p>I look forward to all the adventures we'll share, all the memories we'll create, and all the birthdays we'll celebrate together.</p>
+                <p>I am so grateful for every memory we've created together and so excited for all the adventures still waiting for us. This birthday is just one of many we'll celebrate side by side.</p>
                 
-                <p>I love you more than all the stars in the sky. More than yesterday, less than tomorrow. 💕</p>
+                <p>I love you more than all the stars in the sky, more than all the fish in the sea, more than yesterday but less than tomorrow. 💕</p>
                 
                 <p class="signature">
-                    Forever yours,<br>
+                    With all my love, forever and always,<br>
                     <strong>Your [Your Name]</strong> ❤️
                 </p>
             </div>
@@ -474,155 +464,151 @@
     </div>
 
     <script>
-        // Wait for the DOM to be fully loaded before attaching events
+        // Wait for everything to load
         document.addEventListener('DOMContentLoaded', function() {
-            
-            // ============ NAVIGATION FUNCTIONS ============
-            
-            function goToPassword() {
-                document.getElementById('page1').style.display = 'none';
-                document.getElementById('page2').style.display = 'flex';
-                document.getElementById('page3').style.display = 'none';
-            }
 
-            function goToWelcome() {
+            // ============ YOUR PASSWORD ============
+            // Change this if you want a different password
+            const CORRECT_PASSWORD = "mirkoissalvassweetboy";
+
+            // ============ SHOW/HIDE PAGES ============
+            
+            function showPage1() {
                 document.getElementById('page1').style.display = 'flex';
                 document.getElementById('page2').style.display = 'none';
                 document.getElementById('page3').style.display = 'none';
             }
 
-            function goToLetter() {
+            function showPage2() {
+                document.getElementById('page1').style.display = 'none';
+                document.getElementById('page2').style.display = 'flex';
+                document.getElementById('page3').style.display = 'none';
+            }
+
+            function showPage3() {
                 document.getElementById('page1').style.display = 'none';
                 document.getElementById('page2').style.display = 'none';
                 document.getElementById('page3').style.display = 'flex';
             }
 
-            // ============ BUTTON EVENT LISTENERS ============
+            // ============ BUTTON CLICKS ============
             
-            // Enter button on page 1
-            document.getElementById('enterButton').addEventListener('click', function() {
-                console.log('Enter button clicked!'); // Debug log
-                goToPassword();
+            // Enter button → Password page
+            document.getElementById('enterButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage2();
             });
 
-            // Back button on page 2
-            document.getElementById('backToWelcomeBtn').addEventListener('click', function() {
-                goToWelcome();
+            // Back button → Welcome page
+            document.getElementById('backToWelcomeBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage1();
             });
 
             // ============ PASSWORD CHECK ============
             
-            // CHANGE THIS to your special date (DDMMYY format)
-            const CORRECT_PASSWORD = "150623"; // Example: June 15, 2023
-
             document.getElementById('submitPasswordBtn').addEventListener('click', function() {
-                const input = document.getElementById('passwordInput').value;
+                const userInput = document.getElementById('passwordInput').value.trim();
                 const errorMsg = document.getElementById('errorMsg');
                 
-                if (input === CORRECT_PASSWORD) {
-                    // Success! Fade and redirect
-                    const passwordBox = document.getElementById('passwordBox');
-                    passwordBox.style.opacity = '0';
-                    passwordBox.style.transition = 'opacity 0.5s';
+                if (userInput.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+                    // Correct password!
+                    const overlay = document.getElementById('passwordOverlay');
+                    overlay.style.opacity = '0';
+                    overlay.style.transition = 'opacity 0.5s ease';
+                    
                     setTimeout(() => {
-                        goToLetter();
-                        passwordBox.style.opacity = '1';
+                        showPage3();
+                        overlay.style.opacity = '1';
                     }, 500);
+                    
                 } else {
                     // Wrong password
                     errorMsg.classList.add('show');
                     setTimeout(() => {
                         errorMsg.classList.remove('show');
-                    }, 2000);
+                    }, 2500);
                     document.getElementById('passwordInput').value = '';
+                    document.getElementById('passwordInput').focus();
                 }
             });
 
-            // Enter key to submit password
+            // Press Enter to submit password
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     document.getElementById('submitPasswordBtn').click();
                 }
             });
 
-            // ============ ENVELOPE OPEN ============
+            // ============ ENVELOPE CLICK ============
             
-            let isOpen = false;
+            let envelopeOpened = false;
 
-            document.getElementById('envelopeWrapper').addEventListener('click', function() {
-                if (isOpen) return;
+            document.getElementById('envelopeSection').addEventListener('click', function() {
+                if (envelopeOpened) return;
                 
-                isOpen = true;
-                const envelopeWrapper = document.getElementById('envelopeWrapper');
-                const letterContent = document.getElementById('letterContent');
-                const instruction = document.getElementById('instruction');
+                envelopeOpened = true;
                 
-                // Open envelope animation
-                envelopeWrapper.classList.add('open');
-                instruction.style.opacity = '0';
+                const envelopeSection = document.getElementById('envelopeSection');
+                const letterBox = document.getElementById('letterContentBox');
+                const clickHint = document.getElementById('clickHint');
+                
+                // Switch to open envelope image
+                envelopeSection.classList.add('opened');
+                
+                // Hide hint
+                clickHint.style.opacity = '0';
+                clickHint.style.transition = 'opacity 0.5s';
                 
                 // Show letter after delay
                 setTimeout(() => {
-                    letterContent.classList.add('visible');
+                    letterBox.classList.add('visible');
                     createHearts();
-                    // Smooth scroll to letter
-                    letterContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 800);
+                    
+                    // Scroll to show the letter
+                    letterBox.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 700);
             });
 
             // ============ FALLING HEARTS ============
             
             function createHearts() {
                 const page3 = document.getElementById('page3');
-                const hearts = ['❤️', '💕', '💖', '💗', '💝', '🩷', '💌', '✨'];
+                const heartEmojis = ['❤️', '💕', '💖', '💗', '💝', '🩷', '💌', '✨', '💘', '💞'];
                 
-                for (let i = 0; i < 25; i++) {
+                for (let i = 0; i < 30; i++) {
                     setTimeout(() => {
                         const heart = document.createElement('span');
                         heart.className = 'falling-heart';
-                        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.left = Math.random() * 100 + '%';
                         heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                        heart.style.animationDelay = Math.random() * 0.5 + 's';
+                        heart.style.fontSize = (Math.random() * 25 + 18) + 'px';
                         page3.appendChild(heart);
                         
-                        // Remove heart after animation
+                        // Clean up
                         setTimeout(() => {
                             if (heart.parentNode) {
                                 heart.parentNode.removeChild(heart);
                             }
                         }, 6000);
-                    }, i * 150);
+                    }, i * 120);
                 }
             }
 
-            // ============ SPARKLES ON PAGE 1 ============
+            // ============ STARTUP ============
             
-            function createSparkles() {
-                const page1 = document.getElementById('page1');
-                for (let i = 0; i < 30; i++) {
-                    const sparkle = document.createElement('div');
-                    sparkle.className = 'sparkle';
-                    sparkle.style.left = Math.random() * 100 + '%';
-                    sparkle.style.top = Math.random() * 100 + '%';
-                    sparkle.style.animationDelay = Math.random() * 2 + 's';
-                    page1.appendChild(sparkle);
-                }
-            }
+            // Show page 1 on load
+            showPage1();
             
-            createSparkles();
-
-            // ============ INITIAL SETUP ============
-            
-            // Ensure page 1 is visible and others are hidden on load
-            document.getElementById('page1').style.display = 'flex';
-            document.getElementById('page2').style.display = 'none';
-            document.getElementById('page3').style.display = 'none';
-            
-            console.log('Website loaded and ready! All buttons working.'); // Debug log
+            console.log('✅ Birthday website ready! All buttons working.');
+            console.log('🔑 Password is set to: ' + CORRECT_PASSWORD);
         });
     </script>
 
 </body>
-</html>
-```
+    </html>
