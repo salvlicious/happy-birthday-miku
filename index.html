@@ -14,19 +14,120 @@
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* ============ PAGE 1: HAPPY BIRTHDAY ============ */
+        /* ============ PAGE 1: HAPPY BIRTHDAY WELCOME ============ */
         #page1 {
             min-height: 100vh;
-            /* REPLACE with your background image */
-            background: url('images/background.jpg') center/cover no-repeat;
-            /* Fallback color if image doesn't load */
-            background-color: #1a0a0a;
+            /* REPLACE WITH YOUR BACKGROUND: url('assets/background.jpg') */
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #3d1f1f 60%, #1a0a0a 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating balloons */
+        .balloon {
+            position: absolute;
+            bottom: -200px;
+            animation: floatUpBalloon 10s ease-in infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .balloon-string {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .balloon-body {
+            width: 80px;
+            height: 100px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+        }
+
+        .balloon-body::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid inherit;
+        }
+
+        .balloon:nth-child(1) { left: 8%; animation-delay: 0s; }
+        .balloon:nth-child(1) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(192, 57, 43, 0.8), rgba(123, 36, 28, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(2) { left: 22%; animation-delay: 1.5s; }
+        .balloon:nth-child(2) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(218, 165, 32, 0.8), rgba(139, 105, 20, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(3) { left: 36%; animation-delay: 3s; }
+        .balloon:nth-child(3) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(34, 139, 34, 0.8), rgba(26, 92, 26, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(4) { left: 50%; animation-delay: 4.5s; }
+        .balloon:nth-child(4) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(192, 57, 43, 0.8), rgba(123, 36, 28, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(5) { left: 64%; animation-delay: 6s; }
+        .balloon:nth-child(5) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(218, 165, 32, 0.8), rgba(139, 105, 20, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(6) { left: 78%; animation-delay: 7.5s; }
+        .balloon:nth-child(6) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(139, 69, 19, 0.8), rgba(90, 45, 12, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+        .balloon:nth-child(7) { left: 90%; animation-delay: 2s; }
+        .balloon:nth-child(7) .balloon-body { 
+            background: radial-gradient(circle at 35% 30%, rgba(34, 139, 34, 0.8), rgba(26, 92, 26, 0.9));
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+
+        @keyframes floatUpBalloon {
+            0% {
+                bottom: -200px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateX(40px) rotate(3deg);
+            }
+            50% {
+                transform: translateX(-20px) rotate(-2deg);
+                opacity: 0.9;
+            }
+            75% {
+                transform: translateX(30px) rotate(4deg);
+            }
+            100% {
+                bottom: 110vh;
+                transform: translateX(-50px) rotate(-3deg);
+                opacity: 0;
+            }
         }
 
         .welcome-content {
@@ -36,174 +137,376 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
+            padding: 20px;
         }
 
-        /* REPLACE with your transparent Happy Birthday Mirko PNG */
-        .birthday-text {
+        /* REPLACE WITH YOUR TRANSPARENT PNG */
+        .birthday-text-placeholder {
+            color: #DAA520;
+            font-size: 3.5em;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 40px rgba(218, 165, 32, 0.5);
+            letter-spacing: 3px;
+            line-height: 1.3;
+            max-width: 90%;
+        }
+
+        .birthday-text-placeholder .name {
+            display: block;
+            color: #c0392b;
+            font-size: 1.3em;
+            margin-top: 5px;
+        }
+
+        .birthday-text-image {
             max-width: 90%;
             height: auto;
-            /* This is where your transparent PNG goes */
         }
 
-        .birthday-text img {
+        .birthday-text-image img {
             width: 100%;
             max-width: 600px;
             height: auto;
+            filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.5));
         }
 
-        /* REPLACE with your enter button PNG */
-        .enter-button {
+        /* Enter button */
+        .enter-btn {
+            padding: 18px 55px;
+            font-size: 1.4em;
+            background: linear-gradient(135deg, #c0392b, #8b1a1a);
+            color: #DAA520;
+            border: 3px solid #DAA520;
+            border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            background: none;
-            border: none;
-            padding: 0;
+            font-family: 'Georgia', serif;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
         }
 
-        .enter-button img {
-            width: 100%;
-            max-width: 250px;
-            height: auto;
+        .enter-btn:hover {
+            background: linear-gradient(135deg, #DAA520, #8B6914);
+            color: #1a0a0a;
+            border-color: #c0392b;
+            box-shadow: 0 0 40px rgba(218, 165, 32, 0.7);
+            transform: scale(1.08);
         }
 
-        .enter-button:hover {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-        }
-
-        .enter-button:active {
+        .enter-btn:active {
             transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Twinkling sparkles */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            25% {
+                opacity: 0.3;
+                transform: scale(0.5) rotate(90deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            75% {
+                opacity: 0.3;
+                transform: scale(0.5) rotate(270deg);
+            }
         }
 
         /* ============ PAGE 2: PASSWORD ============ */
         #page2 {
             min-height: 100vh;
-            /* REPLACE with your password page background */
-            background: url('images/password-bg.jpg') center/cover no-repeat;
-            background-color: #0d1b2a;
+            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4ff 25%, #eef2ff 50%, #e0e7ff 75%, #f0f4ff 100%);
             display: none;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .password-overlay {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            padding: 50px 40px;
+        /* Soft floating clouds */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: floatCloud 20s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud:nth-child(1) {
+            width: 150px;
+            height: 60px;
+            top: 10%;
+            left: -200px;
+            animation-delay: 0s;
+        }
+        .cloud:nth-child(1)::before {
+            width: 70px;
+            height: 70px;
+            top: -35px;
+            left: 30px;
+        }
+        .cloud:nth-child(1)::after {
+            width: 90px;
+            height: 80px;
+            top: -40px;
+            left: 70px;
+        }
+
+        .cloud:nth-child(2) {
+            width: 120px;
+            height: 50px;
+            top: 40%;
+            left: -300px;
+            animation-delay: 7s;
+        }
+        .cloud:nth-child(2)::before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+        .cloud:nth-child(2)::after {
+            width: 70px;
+            height: 65px;
+            top: -35px;
+            left: 55px;
+        }
+
+        .cloud:nth-child(3) {
+            width: 100px;
+            height: 40px;
+            top: 70%;
+            left: -250px;
+            animation-delay: 12s;
+        }
+        .cloud:nth-child(3)::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 15px;
+        }
+        .cloud:nth-child(3)::after {
+            width: 60px;
+            height: 55px;
+            top: -28px;
+            left: 45px;
+        }
+
+        @keyframes floatCloud {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 400px)); }
+        }
+
+        .password-box {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(180, 200, 230, 0.5);
+            border-radius: 25px;
+            padding: 50px 45px;
             text-align: center;
             max-width: 450px;
             width: 90%;
-            border: 2px solid rgba(107, 127, 214, 0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(140, 160, 200, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            position: relative;
+            z-index: 10;
         }
 
-        .lock-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
+        .password-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
 
         .password-title {
-            color: #E8D5FF;
-            font-size: 2em;
-            margin-bottom: 15px;
-            font-family: 'Georgia', serif;
+            color: #5a7db0;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            font-weight: normal;
         }
 
-        .hint-text {
-            color: #A8B8D8;
-            margin-bottom: 25px;
+        .password-subtitle {
+            color: #8ba4c7;
+            margin-bottom: 30px;
+            font-size: 0.95em;
             font-style: italic;
-            font-size: 1em;
-            line-height: 1.5;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 15px;
         }
 
         #passwordInput {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #6B7FD6;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #E8D5FF;
-            font-size: 1.2em;
-            text-align: center;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid #c5d5ea;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #4a6fa5;
+            font-size: 1.1em;
             font-family: 'Georgia', serif;
-            margin-bottom: 20px;
             transition: all 0.3s;
+            outline: none;
         }
 
         #passwordInput:focus {
-            outline: none;
-            border-color: #DAA520;
-            box-shadow: 0 0 25px rgba(107, 127, 214, 0.6);
+            border-color: #8ba4c7;
+            box-shadow: 0 0 20px rgba(138, 164, 199, 0.3);
+            background: white;
         }
 
         #passwordInput::placeholder {
-            color: rgba(168, 184, 216, 0.5);
+            color: #b8c9e0;
         }
 
-        .submit-btn {
-            padding: 14px 45px;
-            background: linear-gradient(135deg, #6B7FD6, #4A5BB8);
+        .eye-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #8ba4c7;
+            padding: 5px;
+            transition: color 0.3s;
+            z-index: 5;
+        }
+
+        .eye-toggle:hover {
+            color: #4a6fa5;
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8ba4c7, #6b8fb3);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 15px;
             font-size: 1.1em;
             cursor: pointer;
             font-family: 'Georgia', serif;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             transition: all 0.3s;
+            margin-top: 5px;
         }
 
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #DAA520, #8B6914);
-            box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+        .unlock-btn:hover {
+            background: linear-gradient(135deg, #9db8d8, #7ba0c4);
+            box-shadow: 0 8px 25px rgba(107, 143, 179, 0.4);
             transform: translateY(-2px);
         }
 
-        .error-msg {
-            color: #ff6b6b;
-            margin-top: 15px;
+        .unlock-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #e8787a;
+            margin-top: 12px;
             display: none;
             font-size: 0.95em;
+            animation: fadeInShake 0.5s;
         }
 
-        .error-msg.show {
+        .error-message.show {
             display: block;
-            animation: shake 0.5s;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+        @keyframes fadeInShake {
+            0% { opacity: 0; transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-5px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
 
-        .back-btn {
+        .back-link {
             background: none;
-            border: 1px solid rgba(107, 127, 214, 0.5);
-            color: #A8B8D8;
-            margin-top: 25px;
-            padding: 10px 25px;
-            border-radius: 20px;
+            border: none;
+            color: #8ba4c7;
+            margin-top: 20px;
             cursor: pointer;
             font-size: 0.9em;
             font-family: 'Georgia', serif;
-            transition: all 0.3s;
+            text-decoration: underline;
+            transition: color 0.3s;
         }
 
-        .back-btn:hover {
-            background: rgba(107, 127, 214, 0.2);
-            color: #E8D5FF;
+        .back-link:hover {
+            color: #4a6fa5;
+        }
+
+        /* Confetti */
+        .confetti-piece {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: confettiFall var(--fall-duration) linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(var(--rotation));
+                opacity: 0;
+            }
         }
 
         /* ============ PAGE 3: LETTER ============ */
         #page3 {
             min-height: 100vh;
-            /* REPLACE with your letter page background */
-            background: url('images/letter-bg.jpg') center/cover no-repeat;
-            background-color: #1a0a0a;
+            /* REPLACE WITH YOUR BACKGROUND: url('assets/letter-background.jpg') */
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #1b0f0f 60%, #1a0a0a 100%);
+            background-size: cover;
+            background-position: center;
             display: none;
             justify-content: center;
             align-items: center;
@@ -211,404 +514,171 @@
             position: relative;
         }
 
-        .letter-container {
-            text-align: center;
-            max-width: 700px;
-            width: 100%;
+        .letter-stage {
             position: relative;
-            z-index: 10;
+            width: 400px;
+            height: 550px;
+            margin: 0 auto;
         }
 
-        /* Envelope section */
-        .envelope-section {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .envelope-section:hover {
-            transform: scale(1.05);
-        }
-
-        /* REPLACE with your closed envelope PNG */
+        /* REPLACE: Closed envelope image */
         .closed-envelope {
-            display: block;
-            max-width: 350px;
-            width: 100%;
-            height: auto;
-        }
-
-        /* REPLACE with your open envelope PNG (hidden initially) */
-        .open-envelope {
-            display: none;
-            max-width: 350px;
-            width: 100%;
-            height: auto;
-        }
-
-        .envelope-section.opened .closed-envelope {
-            display: none;
-        }
-
-        .envelope-section.opened .open-envelope {
-            display: block;
-        }
-
-        .click-hint {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 250px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.5s ease;
+            /* PLACEHOLDER - Replace with your image */
+            background: linear-gradient(135deg, #8B4513, #5a2d0c);
+            border: 4px solid #DAA520;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #DAA520;
-            margin-top: 15px;
-            font-size: 1em;
-            font-style: italic;
-            animation: pulse 2s infinite;
+            font-size: 1.4em;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        .closed-envelope img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        /* Letter content box */
-        .letter-content-box {
-            display: none;
-            background: rgba(245, 230, 211, 0.95);
-            border: 3px solid #DAA520;
-            border-radius: 15px;
-            padding: 40px 35px;
-            margin-top: 40px;
-            text-align: left;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 0.8s ease;
+        .closed-envelope.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0.8);
         }
 
-        .letter-content-box.visible {
-            display: block;
+        /* REPLACE: Open envelope image */
+        .open-envelope {
+            position: absolute;
+            top: 43%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            height: 280px;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            /* PLACEHOLDER */
+            background: linear-gradient(135deg, #a0622e, #6b3410);
+            border: 4px solid #DAA520;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #DAA520;
+            font-size: 1.2em;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .open-envelope img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        .letter-content-box h2 {
+        .open-envelope.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Letter pages container */
+        .letter-pages-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 280px;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .letter-pages-container.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* REPLACE: Letter page images */
+        .letter-page {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background: #F5E6D3;
+            border: 2px solid #DAA520;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #8B4513;
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 25px;
-        }
-
-        .letter-content-box p {
-            color: #3d1f0f;
-            line-height: 1.9;
-            margin-bottom: 18px;
             font-size: 1.1em;
         }
 
-        .signature {
-            text-align: right;
-            margin-top: 35px;
-            color: #c0392b;
-            font-style: italic;
-            font-size: 1.2em;
+        .letter-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        /* Falling hearts */
-        .falling-heart {
-            position: absolute;
-            animation: fallDown 4s linear infinite;
-            font-size: 24px;
-            opacity: 0;
-            pointer-events: none;
+        /* Default positions - Page 1 on top */
+        .letter-page-1 {
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 6;
+        }
+
+        .letter-page-2 {
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 5;
         }
 
-        @keyframes fallDown {
-            0% {
-                transform: translateY(-50px) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
+        .letter-page-3 {
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .password-overlay {
-                padding: 30px 25px;
-            }
-            .password-title {
-                font-size: 1.5em;
-            }
-            .letter-content-box {
-                padding: 25px 20px;
-            }
-            .letter-content-box h2 {
-                font-size: 1.5em;
-            }
-            .birthday-text img {
-                max-width: 300px;
-            }
-            .enter-button img {
-                max-width: 180px;
-            }
+        /* State: Page 2 active (page 1 peeks below page 2) */
+        .letter-pages-container.state-2 .letter-page-1 {
+            top: 30px;
+            z-index: 5;
+            transform: translateX(-50%) rotate(-1deg);
         }
-    </style>
-</head>
-<body>
-
-    <!-- ==================== PAGE 1: HAPPY BIRTHDAY ==================== -->
-    <div id="page1">
-        <div class="welcome-content">
-            <!-- REPLACE: Your transparent Happy Birthday Mirko PNG -->
-            <div class="birthday-text">
-                <img src="images/happy-birthday-mirko.png" alt="Happy Birthday Mirko">
-            </div>
-
-            <!-- REPLACE: Your enter button PNG -->
-            <button class="enter-button" id="enterButton">
-                <img src="images/enter-button.png" alt="Click to Enter">
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== PAGE 2: PASSWORD ==================== -->
-    <div id="page2">
-        <div class="password-overlay" id="passwordOverlay">
-            <div class="lock-icon">🔐</div>
-            <h2 class="password-title">Secret Message 🔒</h2>
-            <p class="hint-text">
-                Enter the password to unlock<br>your special birthday letter...
-            </p>
-            
-            <input 
-                type="password" 
-                id="passwordInput" 
-                placeholder="Type password here..." 
-                autocomplete="off"
-            >
-            <br>
-            <button class="submit-btn" id="submitPasswordBtn">
-                Unlock 💌
-            </button>
-            
-            <p class="error-msg" id="errorMsg">
-                ❌ Wrong password! Try again sweet boy...
-            </p>
-            
-            <br>
-            <button class="back-btn" id="backToWelcomeBtn">
-                ← Back to birthday page
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== PAGE 3: LETTER ==================== -->
-    <div id="page3">
-        <div class="letter-container">
-            <!-- Envelope section -->
-            <div class="envelope-section" id="envelopeSection">
-                <!-- REPLACE: Your closed envelope PNG -->
-                <img 
-                    src="images/closed-envelope.png" 
-                    alt="Open your letter" 
-                    class="closed-envelope"
-                >
-                <!-- REPLACE: Your open envelope PNG -->
-                <img 
-                    src="images/open-envelope.png" 
-                    alt="Your letter" 
-                    class="open-envelope"
-                >
-            </div>
-            
-            <p class="click-hint" id="clickHint">
-                ✨ Click the envelope to open ✨
-            </p>
-
-            <!-- Letter content (this appears after envelope opens) -->
-            <div class="letter-content-box" id="letterContentBox">
-                <h2>💌 My Dearest Mirko 💌</h2>
-                
-                <p>Happy Birthday to the most amazing sweet boy in the entire world! 🎂</p>
-                
-                <p>On this incredibly special day, I want you to know just how much you mean to me. Every single moment with you is a treasure I hold close to my heart.</p>
-                
-                <p>Your smile brightens even my darkest days. Your laugh is the sweetest melody I've ever heard. And your love... your love makes my world complete in ways I never knew possible.</p>
-                
-                <p>Today, we celebrate YOU - the wonderful, kind, caring, and absolutely incredible person who makes my heart skip a beat every time I see you.</p>
-                
-                <p>I am so grateful for every memory we've created together and so excited for all the adventures still waiting for us. This birthday is just one of many we'll celebrate side by side.</p>
-                
-                <p>I love you more than all the stars in the sky, more than all the fish in the sea, more than yesterday but less than tomorrow. 💕</p>
-                
-                <p class="signature">
-                    With all my love, forever and always,<br>
-                    <strong>Your [Your Name]</strong> ❤️
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Wait for everything to load
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // ============ YOUR PASSWORD ============
-            // Change this if you want a different password
-            const CORRECT_PASSWORD = "mirkoissalvassweetboy";
-
-            // ============ SHOW/HIDE PAGES ============
-            
-            function showPage1() {
-                document.getElementById('page1').style.display = 'flex';
-                document.getElementById('page2').style.display = 'none';
-                document.getElementById('page3').style.display = 'none';
-            }
-
-            function showPage2() {
-                document.getElementById('page1').style.display = 'none';
-                document.getElementById('page2').style.display = 'flex';
-                document.getElementById('page3').style.display = 'none';
-            }
-
-            function showPage3() {
-                document.getElementById('page1').style.display = 'none';
-                document.getElementById('page2').style.display = 'none';
-                document.getElementById('page3').style.display = 'flex';
-            }
-
-            // ============ BUTTON CLICKS ============
-            
-            // Enter button → Password page
-            document.getElementById('enterButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage2();
-            });
-
-            // Back button → Welcome page
-            document.getElementById('backToWelcomeBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage1();
-            });
-
-            // ============ PASSWORD CHECK ============
-            
-            document.getElementById('submitPasswordBtn').addEventListener('click', function() {
-                const userInput = document.getElementById('passwordInput').value.trim();
-                const errorMsg = document.getElementById('errorMsg');
-                
-                if (userInput.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
-                    // Correct password!
-                    const overlay = document.getElementById('passwordOverlay');
-                    overlay.style.opacity = '0';
-                    overlay.style.transition = 'opacity 0.5s ease';
-                    
-                    setTimeout(() => {
-                        showPage3();
-                        overlay.style.opacity = '1';
-                    }, 500);
-                    
-                } else {
-                    // Wrong password
-                    errorMsg.classList.add('show');
-                    setTimeout(() => {
-                        errorMsg.classList.remove('show');
-                    }, 2500);
-                    document.getElementById('passwordInput').value = '';
-                    document.getElementById('passwordInput').focus();
-                }
-            });
-
-            // Press Enter to submit password
-            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('submitPasswordBtn').click();
-                }
-            });
-
-            // ============ ENVELOPE CLICK ============
-            
-            let envelopeOpened = false;
-
-            document.getElementById('envelopeSection').addEventListener('click', function() {
-                if (envelopeOpened) return;
-                
-                envelopeOpened = true;
-                
-                const envelopeSection = document.getElementById('envelopeSection');
-                const letterBox = document.getElementById('letterContentBox');
-                const clickHint = document.getElementById('clickHint');
-                
-                // Switch to open envelope image
-                envelopeSection.classList.add('opened');
-                
-                // Hide hint
-                clickHint.style.opacity = '0';
-                clickHint.style.transition = 'opacity 0.5s';
-                
-                // Show letter after delay
-                setTimeout(() => {
-                    letterBox.classList.add('visible');
-                    createHearts();
-                    
-                    // Scroll to show the letter
-                    letterBox.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
-                }, 700);
-            });
-
-            // ============ FALLING HEARTS ============
-            
-            function createHearts() {
-                const page3 = document.getElementById('page3');
-                const heartEmojis = ['❤️', '💕', '💖', '💗', '💝', '🩷', '💌', '✨', '💘', '💞'];
-                
-                for (let i = 0; i < 30; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('span');
-                        heart.className = 'falling-heart';
-                        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                        heart.style.left = Math.random() * 100 + '%';
-                        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                        heart.style.animationDelay = Math.random() * 0.5 + 's';
-                        heart.style.fontSize = (Math.random() * 25 + 18) + 'px';
-                        page3.appendChild(heart);
-                        
-                        // Clean up
-                        setTimeout(() => {
-                            if (heart.parentNode) {
-                                heart.parentNode.removeChild(heart);
-                            }
-                        }, 6000);
-                    }, i * 120);
-                }
-            }
-
-            // ============ STARTUP ============
-            
-            // Show page 1 on load
-            showPage1();
-            
-            console.log('✅ Birthday website ready! All buttons working.');
-            console.log('🔑 Password is set to: ' + CORRECT_PASSWORD);
-        });
-    </script>
-
-</body>
-    </html>
+        .letter-pages-container.state-2 .letter-page-2 {
+            top: 0px;
+            z-index: 6;
+            transform: translateX(-50%) rotate(0.5deg);
+        }
+        .letter-pages-container.state-2 .letter-page
