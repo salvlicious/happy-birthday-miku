@@ -45,13 +45,11 @@
   .landing-bg {
     position: absolute;
     inset: 0;
-    background-image: url('assets/bg-landscape.jpg');
+    background-color: #1a0505;
+    background-image: url('assets/background.jpg');
     background-size: cover;
     background-position: center;
     z-index: 0;
-  }
-  @media (orientation: portrait) {
-    .landing-bg { background-image: url('assets/bg-portrait.jpg'); }
   }
 
   /* Sparkle canvas */
@@ -387,28 +385,8 @@
     background: #fffef8;
   }
 
-  /* Page 1 on top, page 2 peeking below */
-  .lp-1 {
-    top: 0;
-    z-index: 3;
-    transform: translateY(0);
-  }
-  .lp-2 {
-    top: 18px; /* peek amount */
-    z-index: 2;
-    transform: translateY(0);
-  }
-
-  /* When page 2 is active */
-  .lp-2.active-letter {
-    z-index: 3;
-    transform: translateY(0);
-    top: 0;
-  }
-  .lp-1.behind {
-    z-index: 2;
-    top: 18px;
-  }
+  /* Letter page stacking — JS controls z-index and top dynamically */
+  .letter-page { top: 0; }
 
   /* Click hint */
   .env-hint {
@@ -443,7 +421,7 @@
 
   <!-- SWAP: replace src with assets/hb-mirko.png -->
   <img class="hb-img"
-       src="assets/hb-mirko.png"
+       src="assets/happy-birthday-mirko.png"
        alt="Happy Birthday Mirko"
        onerror="this.style.display='none'" />
 
@@ -499,25 +477,24 @@
 
     <!-- Letter stack (hidden until revealed) -->
     <div class="letter-stack" id="letter-stack">
-      <!-- Page 1 — SWAP src with assets/letter-page1.png -->
-      <div class="letter-page lp-1" id="lp-1" onclick="flipLetter(event)">
-        <img src="assets/letter-page1.png" alt="Letter page 1"
-             onerror="this.src=''; this.closest('.letter-page').style.background='#fffef8'; this.closest('.letter-page').style.minHeight='220px';" />
+      <div class="letter-page" id="lp-1" onclick="flipLetter(event)">
+        <img src="assets/letter-page-1.jpg" alt="Letter page 1" />
       </div>
-      <!-- Page 2 — SWAP src with assets/letter-page2.png -->
-      <div class="letter-page lp-2" id="lp-2" onclick="flipLetter(event)">
-        <img src="assets/letter-page2.png" alt="Letter page 2"
-             onerror="this.src=''; this.closest('.letter-page').style.background='#fffef8'; this.closest('.letter-page').style.minHeight='220px';" />
+      <div class="letter-page" id="lp-2" onclick="flipLetter(event)">
+        <img src="assets/letter-page-2.jpg" alt="Letter page 2" />
+      </div>
+      <div class="letter-page" id="lp-3" onclick="flipLetter(event)">
+        <img src="assets/letter-page-3.jpg" alt="Letter page 3" />
       </div>
     </div>
 
     <!-- Envelope — SWAP srcs with assets/envelope-closed.png and assets/envelope-open.png -->
     <div class="envelope" id="envelope" onclick="handleEnvClick(event)">
       <img class="env-closed" id="env-closed"
-           src="assets/envelope-closed.png" alt="Closed envelope"
+           src="assets/closed-envelope.png" alt="Closed envelope"
            onerror="this.style.background='#f5e6c0'; this.style.border='2px solid #d4a017';" />
       <img class="env-open" id="env-open"
-           src="assets/envelope-open.png" alt="Open envelope"
+           src="assets/open-envelope.png" alt="Open envelope"
            onerror="this.style.background='#ead5a0'; this.style.border='2px solid #d4a017';" />
     </div>
 
@@ -675,30 +652,70 @@
   // Within 'letters': letter 1 or 2 on top
   // Clicking outside letters → back to 'closed'
 
+  const TOTAL_LETTERS = 3;
   let envState = 'closed'; // 'closed' | 'open' | 'letters'
-  let activeLetter = 1;    // 1 or 2
+  let activeLetter = 1;
 
   function handleEnvClick(e) {
     e.stopPropagation();
     if (envState === 'closed') {
-      // Show open envelope
       document.getElementById('env-closed').style.display = 'none';
       document.getElementById('env-open').style.display   = 'block';
       document.getElementById('env-hint').textContent = 'tap again to take out the letters ✉️';
       envState = 'open';
-
     } else if (envState === 'open') {
-      // Reveal letters
-      const stack = document.getElementById('letter-stack');
-      stack.style.display = 'block';
-      document.getElementById('env-hint').textContent = 'tap a letter to flip, tap outside to close 💌';
+      document.getElementById('letter-stack').style.display = 'block';
+      document.getElementById('env-hint').textContent = 'tap a letter to turn the page, tap outside to close 💌';
       envState = 'letters';
       activeLetter = 1;
       updateLetterView();
     }
-    // If letters are out, clicking envelope does nothing
   }
 
   function flipLetter(e) {
     e.stopPropagation();
-    
+    if (envState !== 'letters') return;
+    // Tapping the top letter goes to next; if on last, wraps back to 1
+    activeLetter = activeLetter < TOTAL_LETTERS ? activeLetter + 1 : 1;
+    updateLetterView();
+  }
+
+  function updateLetterView() {
+    for (let i = 1; i <= TOTAL_LETTERS; i++) {
+      const el = document.getElementById('lp-' + i);
+      if (!el) continue;
+      if (i === activeLetter) {
+        el.style.zIndex = 3;
+        el.style.top = '0px';
+        el.style.opacity = '1';
+      } else if (i === (activeLetter % TOTAL_LETTERS) + 1) {
+        // next letter peeks below
+        el.style.zIndex = 2;
+        el.style.top = '18px';
+        el.style.opacity = '0.85';
+      } else {
+        el.style.zIndex = 1;
+        el.style.top = '24px';
+        el.style.opacity = '0.6';
+      }
+    }
+    document.getElementById('env-hint').textContent =
+      `letter ${activeLetter} of ${TOTAL_LETTERS} — tap to turn the page 💌`;
+  }
+
+  // Clicking outside the scene resets envelope
+  document.getElementById('page-letter').addEventListener('click', function() {
+    if (envState === 'letters' || envState === 'open') {
+      document.getElementById('env-closed').style.display = 'block';
+      document.getElementById('env-open').style.display   = 'none';
+      document.getElementById('letter-stack').style.display = 'none';
+      document.getElementById('env-hint').textContent = 'tap the envelope to open it ✨';
+      envState = 'closed';
+      activeLetter = 1;
+    }
+  });
+
+  document.getElementById('env-scene').addEventListener('click', e => e.stopPropagation());
+</script>
+</body>
+</html>
