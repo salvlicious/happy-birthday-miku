@@ -581,4 +581,48 @@
                         const heart = document.createElement('span');
                         heart.className = 'falling-heart';
                         heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                        hea
+                        heart.style.left = Math.random() * 100 + '%';
+                        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                        page3.appendChild(heart);
+                        
+                        // Remove heart after animation
+                        setTimeout(() => {
+                            if (heart.parentNode) {
+                                heart.parentNode.removeChild(heart);
+                            }
+                        }, 6000);
+                    }, i * 150);
+                }
+            }
+
+            // ============ SPARKLES ON PAGE 1 ============
+            
+            function createSparkles() {
+                const page1 = document.getElementById('page1');
+                for (let i = 0; i < 30; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    page1.appendChild(sparkle);
+                }
+            }
+            
+            createSparkles();
+
+            // ============ INITIAL SETUP ============
+            
+            // Ensure page 1 is visible and others are hidden on load
+            document.getElementById('page1').style.display = 'flex';
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'none';
+            
+            console.log('Website loaded and ready! All buttons working.'); // Debug log
+        });
+    </script>
+
+</body>
+</html>
+```
